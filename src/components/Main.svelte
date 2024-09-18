@@ -12,8 +12,5 @@ import IntroPage from "./IntroPage.svelte";
 <main class="flex flex-col flex-1 p-4">
     <IntroPage/>
     <Projects/>
-    <About/>
-    
-    
-    
+    <About/>        
 </main>

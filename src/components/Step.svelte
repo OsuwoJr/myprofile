@@ -1,9 +1,10 @@
 <script>
     export let step;
+    export let link ="https://github.com/OsuwoJr/"
 </script>
 
 <a
-    href={step.href}
+    href={link}
     target="_blank"
     class="p-4 sm:p-6 md:p-8 flex flex-col gap-4 rounded-lg border border-solid border-violet-700 text-center cursor-pointer group hover:border-violet-400 duration-200"
 >
