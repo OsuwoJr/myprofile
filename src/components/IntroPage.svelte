@@ -1,7 +1,6 @@
 <script>
     import Button from "./Button.svelte";
 
-    // Updated techStack with Web3 languages and Flutter
     const techStack = [
         {
             category: "Programming Languages",
@@ -14,8 +13,20 @@
         {
             category: "CSS Frameworks",
             items: ["Tailwind CSS", "CSS3", "Bootstrap"]
+        },
+        {
+            category: "Other Skills",
+            items: [
+                "Community and Social Media Management",
+                "Product and Project Management",
+                "Prompt Engineer",
+                "Start Up Consultant/researcher"
+            ]
         }
     ];
+
+    // PDF file path
+    const resumeLink = "/files/JohnFrederickOdongoOsuwoResume.pdf";
 </script>
 
 <section id="introPage" class="grid grid-cols-1 lg:grid-cols-2 gap-10 py-8 sm:py-14">
@@ -38,7 +49,14 @@
             {/each}
         </ul>
 
-        <Button text="Resume" link="https://github.com/OsuwoJr/" />
+        <!-- Button for viewing and downloading resume -->
+        <div class="flex gap-4">
+            <!-- View PDF (opens in a new tab) -->
+            <Button text="View Resume" link={resumeLink} target="_blank" />
+
+            <!-- Download PDF -->
+            <Button text="Download Resume" link={resumeLink} download />
+        </div>
     </div>
 
     <div class="relative shadow-2xl grid place-items-center">
