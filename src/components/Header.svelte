@@ -4,7 +4,7 @@
     let tabs = [
         {name:"Projects", link:"#projects"},
         {name:"About Me", link:"#about"},
-        {name:"Blog", link:"#blog"},
+        {name:"Blog", link:"https://block-craner-encyclopaedia.vercel.app/"},
     ]
 </script>
 
