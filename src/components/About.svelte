@@ -1,10 +1,28 @@
+<svelte:options runes={true} />
+
 <script>
-    let benefits = [
-        { name: "Fast", icon: "fa-solid fa-truck-fast", description: "Fast load times and smooth interactions for a seamless user experience." },
-        { name: "Intuitive", icon: "fa-solid fa-mobile-screen-button", description: "User-friendly interfaces with a strong focus on usability and simplicity." },
-        { name: "Responsive", icon: "fa-solid fa-desktop", description: "Adaptable designs that perform flawlessly across all devices and screen sizes." },
-        { name: "Dynamic", icon: "fa-solid fa-database", description: "Data-driven, interactive elements that enhance user engagement and functionality." }
-    ];
+	const benefits = [
+		{
+			name: 'Fast',
+			icon: 'fa-solid fa-truck-fast',
+			description: 'Fast load times and smooth interactions for a seamless user experience.'
+		},
+		{
+			name: 'Intuitive',
+			icon: 'fa-solid fa-mobile-screen-button',
+			description: 'User-friendly interfaces with a strong focus on usability and simplicity.'
+		},
+		{
+			name: 'Responsive',
+			icon: 'fa-solid fa-desktop',
+			description: 'Adaptable designs that perform flawlessly across all devices and screen sizes.'
+		},
+		{
+			name: 'Dynamic',
+			icon: 'fa-solid fa-database',
+			description: 'Data-driven, interactive elements that enhance user engagement and functionality.'
+		}
+	];
 </script>
 
 <section id="about" class="py-20 pt-10 lg:pt-16 relative">
@@ -16,7 +34,7 @@
 
     <!-- Benefits Section -->
     <div class="flex flex-col items-center gap-20 w-full mx-auto max-w-[800px]">
-        {#each benefits as benefit, index}
+        {#each benefits as benefit, index (benefit.name)}
         <div class="flex gap-6 sm:gap-8 py-10 items-start">
             <p class="poppins text-4xl sm:text-5xl md:text-6xl font-bold text-violet-500">0{index + 1}</p>
             <div class="flex flex-col gap-4 sm:gap-6">
@@ -35,7 +53,7 @@
         <table class="bg-white text-slate-700 rounded text-center">
             <thead class="border-b border-slate-200 bg-violet-50">
                 <tr>
-                    <th />
+                    <th></th>
                     <th class="whitespace-nowrap p-2 px-4">Candidate #1</th>
                     <th class="whitespace-nowrap p-2 px-4">Candidate #2</th>
                     <th class="whitespace-nowrap p-2 px-4">Candidate #3</th>
@@ -45,31 +63,31 @@
             <tbody>
                 <tr class="border-b border-slate-200">
                     <td class="border-r border-slate-200 font-semibold p-4 text-sm">Dedication</td>
-                    <td><i class="fa-solid fa-xmark text-slate-500" /></td>
-                    <td><i class="fa-solid fa-check text-slate-500" /></td>
-                    <td><i class="fa-solid fa-xmark text-slate-500" /></td>
-                    <td><i class="fa-solid fa-check text-green-500" /></td>
+                    <td><i class="fa-solid fa-xmark text-slate-500"></i></td>
+                    <td><i class="fa-solid fa-check text-slate-500"></i></td>
+                    <td><i class="fa-solid fa-xmark text-slate-500"></i></td>
+                    <td><i class="fa-solid fa-check text-green-500"></i></td>
                 </tr>
                 <tr class="border-b border-slate-200">
                     <td class="border-r border-slate-200 font-semibold p-4 text-sm">Critical Thought</td>
-                    <td><i class="fa-solid fa-xmark text-slate-500" /></td>
-                    <td><i class="fa-solid fa-check text-slate-500" /></td>
-                    <td><i class="fa-solid fa-check text-slate-500" /></td>
-                    <td><i class="fa-solid fa-check text-green-500" /></td>
+                    <td><i class="fa-solid fa-xmark text-slate-500"></i></td>
+                    <td><i class="fa-solid fa-check text-slate-500"></i></td>
+                    <td><i class="fa-solid fa-check text-slate-500"></i></td>
+                    <td><i class="fa-solid fa-check text-green-500"></i></td>
                 </tr>
                 <tr class="border-b border-slate-200">
                     <td class="border-r border-slate-200 font-semibold p-4 text-sm">Interpersonal Skills</td>
-                    <td><i class="fa-solid fa-check text-slate-500" /></td>
-                    <td><i class="fa-solid fa-check text-slate-500" /></td>
-                    <td><i class="fa-solid fa-xmark text-slate-500" /></td>
-                    <td><i class="fa-solid fa-check text-green-500" /></td>
+                    <td><i class="fa-solid fa-check text-slate-500"></i></td>
+                    <td><i class="fa-solid fa-check text-slate-500"></i></td>
+                    <td><i class="fa-solid fa-xmark text-slate-500"></i></td>
+                    <td><i class="fa-solid fa-check text-green-500"></i></td>
                 </tr>
                 <tr>
                     <td class="border-r border-slate-200 font-semibold p-4 text-sm">Programming Ability</td>
-                    <td><i class="fa-solid fa-check text-slate-500" /></td>
-                    <td><i class="fa-solid fa-xmark text-slate-500" /></td>
-                    <td><i class="fa-solid fa-check text-slate-500" /></td>
-                    <td><i class="fa-solid fa-check text-green-500" /></td>
+                    <td><i class="fa-solid fa-check text-slate-500"></i></td>
+                    <td><i class="fa-solid fa-xmark text-slate-500"></i></td>
+                    <td><i class="fa-solid fa-check text-slate-500"></i></td>
+                    <td><i class="fa-solid fa-check text-green-500"></i></td>
                 </tr>
             </tbody>
         </table>

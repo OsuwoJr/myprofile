@@ -1,8 +1,7 @@
+<svelte:options runes={true} />
+
 <script>
-    export let text;
-    export let link = "";
-    export let email = "";
-    export let phone = "";
+	let { text, link = '', email = '', phone = '' } = $props();
 </script>
 
 <a 

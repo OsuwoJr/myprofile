@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <footer
     class="py-20 sm:py-32 bg-black border-t border-solid border-violet-950 flex flex-col gap-4 sm:gap-8 justify-center items-center"
 >
@@ -25,7 +27,7 @@
             <a href="https://github.com/OsuwoJr" target="_blank" class="text-violet-400"
                 >OsuwoJr<sup class="">
                     <span class="text-xs scale-75 pl-0.5">
-                        <i class="fa-solid fa-arrow-up-right-from-square text-xs scale-[75%]" />
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs scale-[75%]"></i>
                     </span>
                 </sup>
             </a>
@@ -36,7 +38,7 @@
             <a href="https://www.linkedin.com/in/johnfrederick-osuwoodongo-191894230/" target="_blank" class="text-violet-400">
                 John Frederick Odongo Osuwo<sup class="">
                     <span class="text-xs scale-75 pl-0.5">
-                        <i class="fa-solid fa-arrow-up-right-from-square text-xs scale-[75%]" />
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs scale-[75%]"></i>
                     </span>
                 </sup>
             </a>

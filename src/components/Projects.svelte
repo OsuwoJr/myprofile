@@ -1,8 +1,10 @@
+<svelte:options runes={true} />
+
 <script>
     import Step from "./Step.svelte";
 
     // Updated steps with more appropriate icons for Flutter, Rust, and Motoko
-    let steps = [
+    const steps = [
         { name: "HTML5", icon: "fa-brands fa-html5" },
         { name: "CSS3", icon: "fa-brands fa-css3" },
         { name: "JavaScript", icon: "fa-brands fa-js" },
@@ -26,13 +28,13 @@
 
     <!-- GitHub Link -->
     <a href="https://www.youtube.com/@tefroofficial?sub_confirmation=1" target="_blank" class="mx-auto px-4 py-2 rounded-md border border-solid border-white flex items-center gap-2 -mb-0 -mt-10 hover:border-violet-700 duration-200">
-        <i class="fa-regular fa-circle-play" />
+        <i class="fa-regular fa-circle-play"></i>
         <p>Check Out My YouTube</p>
     </a>
 
     <!-- Dynamically render steps with Svelte's each block -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-10">
-        {#each steps as step}
+        {#each steps as step (step.name)}
             <Step step={step}>
                 <p>{step.name}</p>
             </Step>

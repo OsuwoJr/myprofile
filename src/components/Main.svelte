@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script>
 
   import About from "./About.svelte";

@@ -1,3 +1,5 @@
+<svelte:options runes={true} />
+
 <script>
     import Button from "./Button.svelte";
 
@@ -41,7 +43,7 @@
 
         <!-- Loop through each tech category and items -->
         <ul class="list-disc list-inside text-left">
-            {#each techStack as { category, items }}
+            {#each techStack as { category, items } (category)}
                 <li>
                     <strong class="poppins text-violet-400 font-bold">{category}:</strong>
                     {items.join(', ')}
