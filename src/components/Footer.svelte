@@ -9,7 +9,7 @@
     <div class="flex flex-col gap-4 items-center justify-center">
         <p>
             <b class="pr-2">Email</b>
-            <a href="mailto:osuwoodongo@gmail.com" class="text-violet-400">osuwoodongo@gmail.com</a>
+            <a href="mailto:johnfredosuwo@gmail.com" class="text-violet-400">johnfredosuwo@gmail.com</a>
         </p>
 
         <p>
@@ -35,13 +35,16 @@
 
         <p>
             <b class="pr-2">LinkedIn</b>
-            <a href="https://www.linkedin.com/in/johnfrederick-osuwoodongo-191894230/" target="_blank" class="text-violet-400">
-                John Frederick Odongo Osuwo<sup class="">
+            <a href="https://www.linkedin.com/in/JohnFrederickOdongoOsuwo" target="_blank" class="text-violet-400">
+                JohnFrederickOdongoOsuwo<sup class="">
                     <span class="text-xs scale-75 pl-0.5">
                         <i class="fa-solid fa-arrow-up-right-from-square text-xs scale-[75%]"></i>
                     </span>
                 </sup>
             </a>
+        </p>
+        <p class="text-center text-sm text-slate-400 mt-4">
+            📍 Kenya 🇰🇪 | Security-Focused Software Engineer | Frontend & Blockchain Developer | DevSecOps & Application Security Specialist
         </p>
     </div>
 </footer>

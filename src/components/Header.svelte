@@ -6,9 +6,11 @@
 	let { y } = $props();
 
 	const tabs = [
-		{ name: 'Projects', link: '#projects' },
-		{ name: 'About Me', link: '#about' },
-		{ name: 'Blog', link: 'https://block-craner-encyclopaedia.vercel.app/' }
+		{ name: 'Summary', link: '#professional-summary' },
+		{ name: 'Skills', link: '#core-skills' },
+		{ name: 'Experience', link: '#professional-experience' },
+		{ name: 'Projects', link: '#selected-projects' },
+		{ name: 'About', link: '#about' }
 	];
 </script>
 
@@ -16,7 +18,10 @@
     y > 0 ? " py-4 bg-slate-950 border-violate-950" : " py-6 bg-transparent border-transparent"
 ) }>
     <h1 class="font-medium">
-        <b class="font-extrabold poppins">John Frederick</b> Osuwo Odongo
+        <b class="font-extrabold poppins">Osuwo Odongo</b> John Frederick
+        <span class="text-xs md:text-sm text-violet-400 block md:inline md:ml-2">
+            | Fullstack Engineer · Frontend-Focused · SEO & Security Specialist
+        </span>
     </h1>
     <div class="sm:flex ml-auto pr-4 items-center gap-4 hidden">
         {#each tabs as tab (tab.name)}
