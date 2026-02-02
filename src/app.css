@@ -136,3 +136,25 @@ button:focus {
 ::-webkit-scrollbar-thumb:hover {
     background: #7c3aed;
 }
+
+/* Resume one-page print layout */
+@media print {
+    header,
+    footer,
+    .no-print {
+        display: none !important;
+    }
+    .resume-print-wrapper {
+        padding: 0;
+    }
+    .resume-view {
+        box-shadow: none;
+        max-width: 100%;
+        font-size: 11px;
+    }
+    .resume-view h1 { font-size: 18px; }
+    .resume-view h2 { font-size: 10px; }
+    .resume-view a[href]::after {
+        content: none;
+    }
+}

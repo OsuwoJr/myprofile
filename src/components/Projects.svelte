@@ -26,15 +26,15 @@
         </h3>
     </div>
 
-    <!-- GitHub Link -->
+    <!-- YouTube & Instagram -->
     <div class="flex flex-wrap justify-center gap-4">
-        <a href="https://github.com/osuwojr" target="_blank" class="px-4 py-2 rounded-md border border-solid border-violet-700 flex items-center gap-2 hover:border-violet-500 hover:bg-violet-900/20 duration-200">
-            <i class="fa-brands fa-github"></i>
-            <p>View My GitHub</p>
+        <a href="https://www.youtube.com/@OsuwoJrCodes?sub_confirmation=1" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-md border border-solid border-violet-700 flex items-center gap-2 hover:border-violet-500 hover:bg-violet-900/20 duration-200">
+            <i class="fa-brands fa-youtube"></i>
+            <p>YouTube</p>
         </a>
-        <a href="https://www.youtube.com/@tefroofficial?sub_confirmation=1" target="_blank" class="px-4 py-2 rounded-md border border-solid border-violet-700 flex items-center gap-2 hover:border-violet-500 hover:bg-violet-900/20 duration-200">
-            <i class="fa-regular fa-circle-play"></i>
-            <p>Check Out My YouTube</p>
+        <a href="https://www.instagram.com/osuwojr/" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-md border border-solid border-violet-700 flex items-center gap-2 hover:border-violet-500 hover:bg-violet-900/20 duration-200">
+            <i class="fa-brands fa-instagram"></i>
+            <p>Instagram</p>
         </a>
     </div>
 

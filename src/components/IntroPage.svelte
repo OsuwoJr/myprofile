@@ -1,10 +1,6 @@
 <svelte:options runes={true} />
 
 <script>
-    import Button from "./Button.svelte";
-
-    // PDF file path
-    const resumeLink = "/files/JohnFrederickOdongoOsuwoResume.pdf";
     const currentYear = new Date().getFullYear();
 </script>
 
@@ -75,22 +71,28 @@
                 </a>
             </div>
             <div class="flex flex-wrap gap-4">
-                <a href="https://github.com/osuwojr" target="_blank" class="text-violet-400 hover:text-violet-300 flex items-center gap-2">
+                <a href="https://github.com/osuwojr" target="_blank" rel="noopener noreferrer" class="text-violet-400 hover:text-violet-300 flex items-center gap-2">
                     <i class="fa-brands fa-github"></i>
                     <span>GitHub: @osuwojr</span>
                 </a>
-                <a href="https://www.linkedin.com/in/JohnFrederickOdongoOsuwo" target="_blank" class="text-violet-400 hover:text-violet-300 flex items-center gap-2">
+                <a href="https://www.linkedin.com/in/JohnFrederickOdongoOsuwo" target="_blank" rel="noopener noreferrer" class="text-violet-400 hover:text-violet-300 flex items-center gap-2">
                     <i class="fa-brands fa-linkedin"></i>
                     <span>LinkedIn</span>
+                </a>
+                <a href="https://www.youtube.com/@OsuwoJrCodes?sub_confirmation=1" target="_blank" rel="noopener noreferrer" class="text-violet-400 hover:text-violet-300 flex items-center gap-2">
+                    <i class="fa-brands fa-youtube"></i>
+                    <span>YouTube</span>
+                </a>
+                <a href="https://www.instagram.com/osuwojr/" target="_blank" rel="noopener noreferrer" class="text-violet-400 hover:text-violet-300 flex items-center gap-2">
+                    <i class="fa-brands fa-instagram"></i>
+                    <span>Instagram</span>
                 </a>
             </div>
         </div>
 
-        <!-- Button for viewing and downloading resume -->
-        <div class="flex flex-wrap gap-4">
-            <Button text="View Resume" link={resumeLink} target="_blank" />
-            <Button text="Download Resume" link={resumeLink} download />
-        </div>
+        <p class="text-sm text-slate-400">
+            <a href="/resumes" class="text-violet-400 hover:text-violet-300 underline">Role-specific resumes</a> (Frontend · Backend · Fullstack · Security) — view on web or download as PDF.
+        </p>
     </div>
 
     <div class="relative shadow-2xl grid place-items-center">
