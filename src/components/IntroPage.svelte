@@ -9,39 +9,25 @@
 
 <section id="introPage" class="grid grid-cols-1 lg:grid-cols-2 gap-10 py-8 sm:py-14">
     <div class="flex flex-col lg:justify-center items-center md:items-start text-center lg:text-left gap-6 md:gap-8 lg:gap-10">
-        <div class="flex flex-col gap-4">
-            <h1 class="font-semibold text-3xl md:text-5xl lg:text-6xl">
-                👋 Hi, I'm <span class="poppins text-violet-400">Osuwo Odongo John Frederick</span>
-            </h1>
+        <h1 class="hero-headline poppins font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight tracking-tight">
+            <span class="hero-headline-line">Security-Focused Software Engineer</span>
+            <span class="hero-headline-sep" aria-hidden="true">|</span>
+            <span class="hero-headline-line">Frontend & Blockchain Developer</span>
+            <span class="hero-headline-sep" aria-hidden="true">|</span>
+            <span class="hero-headline-line">DevSecOps & Application Security Specialist</span>
+        </h1>
+        <div class="flex flex-col gap-4 bg-slate-900/30 border border-violet-800/30 rounded-lg p-4">
             <div class="flex flex-wrap gap-2 text-sm md:text-base">
                 <span class="px-3 py-1 bg-violet-900/50 rounded-full border border-violet-700">Fullstack Engineer</span>
                 <span class="px-3 py-1 bg-violet-900/50 rounded-full border border-violet-700">Frontend-Focused</span>
                 <span class="px-3 py-1 bg-violet-900/50 rounded-full border border-violet-700">SEO Specialist</span>
                 <span class="px-3 py-1 bg-violet-900/50 rounded-full border border-violet-700">Security Expert</span>
             </div>
-            <div class="bg-slate-900/30 border border-violet-800/30 rounded-lg p-3">
-                <p class="text-sm text-violet-400 font-semibold">
-                    🔐 Application Security | DevSecOps | Secure Code | OWASP | CI/CD Defender | Kenya 🇰🇪
-                </p>
-            </div>
-        </div>
-        
-        <p class="text-lg md:text-xl leading-relaxed">
-            <strong class="poppins text-violet-400">Security-Focused Software Engineer</strong> | 
-            <strong class="poppins text-violet-400">Frontend & Blockchain Developer</strong> | 
-            <strong class="poppins text-violet-400">DevSecOps & Application Security Specialist</strong>
-        </p>
-        
-        <div class="bg-violet-900/20 border border-violet-700/50 rounded-lg p-4">
-            <p class="text-sm md:text-base text-slate-200 italic">
-                <strong class="text-violet-400">LinkedIn Headline:</strong> Security-Focused Software Engineer | 
-                Frontend (React, Svelte, Next.js) | Blockchain (Hedera, ICP, Lisk) | 
-                Application Security & DevSecOps | OWASP | CI/CD
-            </p>
         </div>
         
         <p class="text-base md:text-lg text-slate-300">
             I'm a <strong>Software Engineer specializing in Frontend Engineering, Blockchain Development, and Application Security (DevSecOps)</strong>. 
+            My focus includes <strong>🔐 Application Security</strong>, <strong>DevSecOps</strong>, <strong>Secure Code</strong>, <strong>OWASP</strong> practices, <strong>CI/CD defense</strong>, and I'm based in <strong>Kenya 🇰🇪</strong>. 
             I help teams build <strong>secure, scalable, and production-ready applications</strong> by combining strong UI engineering with 
             <strong>secure-by-design principles</strong> across the entire software development lifecycle.
         </p>
@@ -84,24 +70,6 @@
                     <i class="fa-brands fa-linkedin"></i>
                     <span>LinkedIn</span>
                 </a>
-            </div>
-            <div class="bg-slate-900/30 border border-violet-800/30 rounded-lg p-4 space-y-2">
-                <p class="text-sm text-slate-300">
-                    👀 <strong>Interested in:</strong> Making UIs look more artistic, interesting with easy to use interaction interfaces
-                </p>
-                <p class="text-sm text-slate-300">
-                    🌱 <strong>Currently learning:</strong> TypeScript
-                </p>
-                <p class="text-sm text-slate-300">
-                    💞️ <strong>Looking to collaborate on:</strong> Projects that allow TailwindCSS, ReactJS, and Svelte, with ambition of limitless creativity
-                </p>
-                <p class="text-sm text-slate-300">
-                    📫 <strong>Reach me:</strong> Search and DM <strong>OSUWOJR</strong> everywhere
-                </p>
-                <p class="text-sm text-slate-400 italic mt-2">
-                    ⚡ Fun fact: I'm also a <strong>music & video producer</strong> and artist (<strong>OSUWOJR</strong>), 
-                    and owner of <strong>KenyanTroublerMusic</strong>.
-                </p>
             </div>
         </div>
 

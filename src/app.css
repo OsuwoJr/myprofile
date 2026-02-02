@@ -81,6 +81,32 @@ h6,
     background-clip: text;
 }
 
+/* Hero headline: gradient text and wrap-by-phrase layout */
+.hero-headline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.35em 0.6em;
+}
+.hero-headline-line {
+    background: linear-gradient(135deg, #c4b5fd 0%, #a78bfa 50%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+}
+.hero-headline-sep {
+    color: rgb(139 92 246 / 0.5);
+    font-weight: 300;
+    user-select: none;
+}
+@media (max-width: 640px) {
+    .hero-headline-line {
+        white-space: normal;
+    }
+}
+
 /* Section spacing */
 section {
     scroll-margin-top: 80px;
