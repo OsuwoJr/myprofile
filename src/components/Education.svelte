@@ -12,7 +12,7 @@
         <div class="bg-slate-900/50 border border-violet-800/50 rounded-lg p-8">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
                 <div>
-                    <h4 class="text-2xl font-semibold text-violet-400 mb-2">Bachelor of Science – Civil Engineering</h4>
+                    <h4 class="text-2xl font-semibold text-violet-400 mb-2">Bachelor's Degree in Civil Engineering</h4>
                     <p class="text-lg text-slate-300">Technical University of Kenya</p>
                 </div>
                 <span class="text-violet-400 font-semibold mt-2 md:mt-0">2024</span>
