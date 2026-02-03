@@ -1,11 +1,13 @@
 <svelte:options runes={true} />
 
 <script>
+	import CertificationsBook from './CertificationsBook.svelte';
+
 	const projects = [
 		{
 			name: "Meme Coins – Blockchain Micro-Transaction Platform",
-			tech: ["React", "TypeScript", "Hedera Smart Contracts"],
-			description: "Designed responsive UI with secure wallet integration. Enabled scalable, low-cost token transactions. Focused on usability, performance, and transaction safety. Built Mem Coins, a blockchain micro-transaction platform using React, TypeScript, and Hedera smart contracts, enabling secure and scalable token transactions.",
+			tech: ["React", "TypeScript", "Hedera Smart Contracts", "ICP"],
+			description: "Built Dust Coin, a meme coin that won the ICP Spillover Hackathon. Participated as Product and Project Manager. Designed responsive UI with secure wallet integration, scalable low-cost token transactions, and a focus on usability and transaction safety.",
 			icon: "fa-solid fa-coins"
 		},
 		{
@@ -53,5 +55,16 @@
 				<p class="text-slate-300 text-sm leading-relaxed flex-1">{project.description}</p>
 			</div>
 		{/each}
+	</div>
+
+	<!-- Certifications (book flip) -->
+	<div class="flex flex-col gap-2 text-center relative before:absolute before:top-0 before:left-0 before:w-2/3 before:h-1.5 before:bg-violet-700 after:absolute after:bottom-0 after:right-0 after:w-2/3 after:h-1.5 after:bg-violet-700 py-4 mb-12 mt-24">
+		<h6 class="text-lg sm:text-xl md:text-2xl">Credentials</h6>
+		<h3 class="font-semibold text-3xl sm:text-4xl md:text-5xl">
+			<span class="poppins text-violet-400">Certifications</span>
+		</h3>
+	</div>
+	<div class="max-w-4xl mx-auto">
+		<CertificationsBook />
 	</div>
 </section>

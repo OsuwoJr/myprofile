@@ -75,6 +75,10 @@
                     <i class="fa-brands fa-github"></i>
                     <span>GitHub: @osuwojr</span>
                 </a>
+                <a href="https://x.com/OsuwoJr" target="_blank" rel="noopener noreferrer" class="text-violet-400 hover:text-violet-300 flex items-center gap-2">
+                    <i class="fa-brands fa-x-twitter"></i>
+                    <span>X</span>
+                </a>
                 <a href="https://www.linkedin.com/in/JohnFrederickOdongoOsuwo" target="_blank" rel="noopener noreferrer" class="text-violet-400 hover:text-violet-300 flex items-center gap-2">
                     <i class="fa-brands fa-linkedin"></i>
                     <span>LinkedIn</span>
