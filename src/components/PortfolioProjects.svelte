@@ -4,6 +4,7 @@
 	import CertificationsBook from './CertificationsBook.svelte';
 	import OdaFlowProject from './OdaFlowProject.svelte';
 	import MedlinePathocareProject from './MedlinePathocareProject.svelte';
+	import KentallBuildersProject from './KentallBuildersProject.svelte';
 
 	const projects = [
 		{
@@ -43,6 +44,11 @@
 	<!-- Featured: Medline Pathocare (full content from PORTFOLIO-PROJECT.md) -->
 	<div class="max-w-6xl mx-auto w-full mb-16">
 		<MedlinePathocareProject />
+	</div>
+
+	<!-- Featured: Kentall Builders (full content from PORTFOLIO_PROJECT_SUMMARY.md) -->
+	<div class="max-w-6xl mx-auto w-full mb-16">
+		<KentallBuildersProject />
 	</div>
 
 	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
