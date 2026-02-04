@@ -8,6 +8,9 @@
 		{ id: 'seo', label: 'SEO', icon: 'fa-magnifying-glass-chart' },
 		{ id: 'summary', label: 'Summary', icon: 'fa-table-cells' }
 	];
+	function selectTab(id) {
+		activeTab = id;
+	}
 </script>
 
 <div
@@ -70,7 +73,7 @@
 
 	<!-- Tabs -->
 	<div class="flex border-b border-slate-700/80 bg-slate-900/50 px-4 sm:px-6" role="tablist">
-		{#each tabs as tab}
+		{#each tabs as tab (tab.id)}
 			<button
 				type="button"
 				role="tab"
@@ -79,20 +82,22 @@
 				class:text-cyan-400={activeTab === tab.id}
 				class:text-slate-400={activeTab !== tab.id}
 				class:hover:text-slate-200={activeTab !== tab.id}
-				onclick={() => (activeTab = tab.id)}
+				data-tab={tab.id}
+				onclick={(e) => selectTab(e.currentTarget.dataset.tab)}
 			>
 				<i class="fa-solid {tab.icon} mr-2 text-xs opacity-80"></i>
 				{tab.label}
 				{#if activeTab === tab.id}
-					<span class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-400 to-violet-400"></span>
+					<span class="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-400" aria-hidden="true"></span>
 				{/if}
 			</button>
 		{/each}
 	</div>
 
-	<!-- Tab panels -->
+	<!-- Tab panels: #key forces re-render when activeTab changes -->
 	<div class="min-h-[420px] overflow-auto px-4 py-6 sm:px-6 sm:py-8">
-		{#if activeTab === 'frontend'}
+		{#key activeTab}
+			{#if activeTab === 'frontend'}
 			<div class="odaflow-panel space-y-8" role="tabpanel">
 				<section>
 					<h3 class="mb-3 text-lg font-semibold text-cyan-300">1.1 Scope & Scale</h3>
@@ -345,6 +350,7 @@
 					</p>
 				</div>
 			</div>
-		{/if}
+			{/if}
+		{/key}
 	</div>
 </div>
