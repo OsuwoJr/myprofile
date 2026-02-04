@@ -2,6 +2,7 @@
 
 <script>
 	import CertificationsBook from './CertificationsBook.svelte';
+	import OdaFlowProject from './OdaFlowProject.svelte';
 
 	const projects = [
 		{
@@ -31,6 +32,11 @@
 		<h3 class="font-semibold text-3xl sm:text-4xl md:text-5xl">
 			Selected <span class="poppins text-violet-400">Projects</span>
 		</h3>
+	</div>
+
+	<!-- Featured: OdaFlow (full content from PORTFOLIO.md) -->
+	<div class="max-w-6xl mx-auto w-full mb-16">
+		<OdaFlowProject />
 	</div>
 
 	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
