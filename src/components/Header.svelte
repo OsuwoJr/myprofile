@@ -1,7 +1,27 @@
 <svelte:options runes={true} />
 
 <script>
+	import { supabase } from '$lib/supabase';
+
 	let { y } = $props();
+	let user = $state(null);
+
+	$effect(() => {
+		const {
+			data: { subscription }
+		} = supabase.auth.onAuthStateChange((_event, session) => {
+			user = session?.user ?? null;
+		});
+		// Get initial session
+		supabase.auth.getSession().then(({ data: { session } }) => {
+			user = session?.user ?? null;
+		});
+		return () => subscription?.unsubscribe();
+	});
+
+	async function signOut() {
+		await supabase.auth.signOut();
+	}
 
 	const skillsSections = [
 		{ name: 'Core Skills', link: '/#core-skills' },
@@ -14,7 +34,8 @@
 
 	const otherTabs = [
 		{ name: 'Portfolio', link: '/portfolio' },
-		{ name: 'Resumes', link: '/resumes' }
+		{ name: 'Resumes', link: '/resumes' },
+		{ name: 'Blog', link: '/blog' }
 	];
 </script>
 
@@ -60,12 +81,40 @@
                 <p>{tab.name}</p>
             </a>
         {/each}
+        {#if user}
+            <button
+                type="button"
+                onclick={signOut}
+                class="duration-200 hover:text-violet-400 bg-transparent border-none cursor-pointer p-0 text-inherit text-sm sm:text-base font-normal"
+            >
+                Sign out
+            </button>
+        {:else}
+            <a href="/auth/signin" class="duration-200 hover:text-violet-400 text-sm sm:text-base font-normal">
+                Sign in
+            </a>
+        {/if}
     </div>
 
-    <a
-        href="/contact"
-        class="relative overflow-hidden px-2 md:px-5 py-2 group rounded-full bg-white text-slate-950 max-w-max border border-transparent transition-transform duration-300 ease-in-out focus:outline-none hover:border-violet-500 active:border-violet-300 duration-200 hover:text-slate-950"
-    >
-        Contact Me
-    </a>
+    <div class="flex items-center gap-3">
+        <span class="sm:hidden">
+            {#if user}
+                <button
+                    type="button"
+                    onclick={signOut}
+                    class="duration-200 hover:text-violet-400 text-sm font-normal"
+                >
+                    Sign out
+                </button>
+            {:else}
+                <a href="/auth/signin" class="duration-200 hover:text-violet-400 text-sm font-normal">Sign in</a>
+            {/if}
+        </span>
+        <a
+            href="/contact"
+            class="relative overflow-hidden px-2 md:px-5 py-2 group rounded-full bg-white text-slate-950 max-w-max border border-transparent transition-transform duration-300 ease-in-out focus:outline-none hover:border-violet-500 active:border-violet-300 duration-200 hover:text-slate-950"
+        >
+            Contact Me
+        </a>
+    </div>
 </header>

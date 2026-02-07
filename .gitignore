@@ -10,3 +10,6 @@ node_modules
 !.env.example
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Local implementation guide (optional: remove this line if you want to commit it)
+BLOG_IMPLEMENTATION_GUIDE.md
