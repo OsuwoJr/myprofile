@@ -1,9 +1,17 @@
 import { createBrowserClient } from '@supabase/ssr';
-import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
+import { env } from '$env/dynamic/public';
 
-if (!PUBLIC_SUPABASE_URL || !PUBLIC_SUPABASE_ANON_KEY) {
-	throw new Error('Missing PUBLIC_SUPABASE_URL or PUBLIC_SUPABASE_ANON_KEY in .env');
+function getSupabaseEnv() {
+	const url = env.PUBLIC_SUPABASE_URL;
+	const key = env.PUBLIC_SUPABASE_ANON_KEY;
+	if (!url || !key) {
+		throw new Error('Missing PUBLIC_SUPABASE_URL or PUBLIC_SUPABASE_ANON_KEY');
+	}
+	return { url, key };
 }
 
 /** Browser Supabase client. Uses cookies for PKCE (required for OAuth callback on server). */
-export const supabase = createBrowserClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY);
+export const supabase = (() => {
+	const { url, key } = getSupabaseEnv();
+	return createBrowserClient(url, key);
+})();
