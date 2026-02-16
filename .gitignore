@@ -13,3 +13,6 @@ vite.config.ts.timestamp-*
 
 # Local implementation guide (optional: remove this line if you want to commit it)
 BLOG_IMPLEMENTATION_GUIDE.md
+
+# Google OAuth setup checklist (local reference; remove this line to commit)
+GOOGLE_AUTH_SETUP.md
