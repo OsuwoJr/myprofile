@@ -1,8 +1,13 @@
 import { createServerClient } from '@supabase/ssr';
-import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
+import { env } from '$env/dynamic/public';
 
-if (!PUBLIC_SUPABASE_URL || !PUBLIC_SUPABASE_ANON_KEY) {
-	throw new Error('Missing PUBLIC_SUPABASE_URL or PUBLIC_SUPABASE_ANON_KEY');
+function getSupabaseEnv() {
+	const url = env.PUBLIC_SUPABASE_URL;
+	const key = env.PUBLIC_SUPABASE_ANON_KEY;
+	if (!url || !key) {
+		throw new Error('Missing PUBLIC_SUPABASE_URL or PUBLIC_SUPABASE_ANON_KEY');
+	}
+	return { url, key };
 }
 
 /**
@@ -13,7 +18,8 @@ if (!PUBLIC_SUPABASE_URL || !PUBLIC_SUPABASE_ANON_KEY) {
  * @returns {import('@supabase/supabase-js').SupabaseClient}
  */
 export function createSupabaseServerClient(cookies) {
-	return createServerClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
+	const { url, key } = getSupabaseEnv();
+	return createServerClient(url, key, {
 		cookies: {
 			getAll: () => cookies.getAll(),
 			setAll: (cookiesToSet) => {

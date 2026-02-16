@@ -65,40 +65,45 @@
 	class="space-y-4"
 >
 	<div>
-		<label class="block text-slate-300 mb-1">Title</label>
+		<label for="new-title" class="block text-slate-300 mb-1">Title</label>
 		<input
+			id="new-title"
 			bind:value={title}
 			oninput={slugFromTitle}
 			class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-600 text-slate-100"
 		/>
 	</div>
 	<div>
-		<label class="block text-slate-300 mb-1">Slug (URL)</label>
+		<label for="new-slug" class="block text-slate-300 mb-1">Slug (URL)</label>
 		<input
+			id="new-slug"
 			bind:value={slug}
 			class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-600 text-slate-100"
 			placeholder="auto from title"
 		/>
 	</div>
 	<div>
-		<label class="block text-slate-300 mb-1">Topic</label>
+		<label for="new-topic" class="block text-slate-300 mb-1">Topic</label>
 		<input
+			id="new-topic"
 			bind:value={topic}
 			class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-600 text-slate-100"
 			placeholder="e.g. SEO, Frontend, Product Design"
 		/>
 	</div>
 	<div>
-		<label class="block text-slate-300 mb-1">Excerpt</label>
+		<label for="new-excerpt" class="block text-slate-300 mb-1">Excerpt</label>
 		<textarea
+			id="new-excerpt"
 			bind:value={excerpt}
 			class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-600 text-slate-100"
 			rows="2"
 		></textarea>
 	</div>
 	<div>
-		<label class="block text-slate-300 mb-1">Body</label>
+		<label for="new-body" class="block text-slate-300 mb-1">Body</label>
 		<textarea
+			id="new-body"
 			bind:value={body}
 			class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-600 text-slate-100"
 			rows="12"
