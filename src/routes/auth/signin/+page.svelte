@@ -4,7 +4,7 @@
 	import { supabase } from '$lib/supabase';
 	import { goto } from '$app/navigation';
 
-	/** @type {{ data: { errorFromUrl?: string | null } }} */
+	/** @type {{ data: { errorFromUrl?: string | null; messageFromUrl?: string | null } }} */
 	let { data } = $props();
 
 	let email = $state('');
@@ -57,18 +57,26 @@
 			required
 			class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-600 text-slate-100"
 		/>
-		<input
-			type="password"
-			bind:value={password}
-			placeholder="Password"
-			required
-			class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-600 text-slate-100"
-		/>
+		<div>
+			<input
+				type="password"
+				bind:value={password}
+				placeholder="Password"
+				required
+				class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-600 text-slate-100"
+			/>
+			<p class="mt-1.5 text-right">
+				<a href="/auth/forgot-password" class="text-sm text-violet-400 hover:underline">Forgot password?</a>
+			</p>
+		</div>
 		{#if error}
 			<p class="text-red-400 text-sm">{error}</p>
 		{/if}
 		{#if data?.errorFromUrl}
 			<p class="text-red-400 text-sm">Sign-in failed: {data.errorFromUrl}</p>
+		{/if}
+		{#if data?.messageFromUrl}
+			<p class="text-green-400 text-sm">{decodeURIComponent(data.messageFromUrl)}</p>
 		{/if}
 		<button
 			type="submit"
