@@ -11,7 +11,7 @@
     import AdditionalStrengths from "./AdditionalStrengths.svelte";
 </script>
 
-<main class="flex flex-col flex-1 p-4">
+<main class="flex flex-col flex-1 min-h-0 w-full p-4">
     <IntroPage/>
     <CoreSkills/>
     <ProfessionalExperience/>

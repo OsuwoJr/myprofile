@@ -31,7 +31,9 @@
   </div>
   <Header {y}/>
 
-  {@render children?.()}
+  <main class="flex-1 flex flex-col min-h-0">
+    {@render children?.()}
+  </main>
 
   <Footer />
   </div>
