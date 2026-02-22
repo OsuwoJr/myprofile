@@ -13,6 +13,7 @@
 	let slug = $state('');
 	let excerpt = $state('');
 	let body = $state('');
+	let analogy = $state('');
 	let topic = $state('');
 	let published = $state(true);
 	let saving = $state(false);
@@ -33,6 +34,7 @@
 				slug = article.slug ?? '';
 				excerpt = article.excerpt ?? '';
 				body = article.body ?? '';
+				analogy = article.analogy ?? '';
 				topic = article.topic ?? '';
 				published = article.published ?? true;
 			}
@@ -81,6 +83,7 @@
 				slug: finalSlug,
 				excerpt: excerpt.trim() || null,
 				body: body.trim(),
+				analogy: analogy.trim() || null,
 				topic: topic.trim() || null,
 				published,
 				updated_at: new Date().toISOString()
@@ -158,6 +161,20 @@
 				bind:value={excerpt}
 				class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-600 text-slate-100"
 				rows="2"
+			></textarea>
+		</div>
+
+		<div>
+			<label for="edit-analogy" class="block text-slate-300 mb-1">
+				Analogy / plain-language version
+				<span class="ml-2 text-xs text-slate-500 font-normal">(optional) — “In plain terms” view; add or update anytime (e.g. after a reader request). Markdown supported.</span>
+			</label>
+			<textarea
+				id="edit-analogy"
+				bind:value={analogy}
+				class="w-full px-4 py-3 rounded-lg bg-slate-800 border border-slate-600 text-slate-100 font-mono text-sm leading-relaxed"
+				rows="8"
+				placeholder="e.g. Think of technical SEO like a library…"
 			></textarea>
 		</div>
 

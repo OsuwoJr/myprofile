@@ -8,6 +8,11 @@
 	// Article and bodyHtml come from server load — already parsed, no client race
 	const article = $derived(data.article);
 	const bodyHtml = $derived(data.bodyHtml ?? '');
+	const analogyHtml = $derived(data.analogyHtml ?? '');
+	const hasAnalogy = $derived(Boolean(analogyHtml?.trim()));
+
+	// When analogy exists, reader can switch view (default: technical)
+	let viewMode = $state('technical'); // 'technical' | 'analogy'
 </script>
 
 <svelte:head>
@@ -26,7 +31,37 @@
 			<time class="text-slate-500 block mt-2 text-sm" datetime={article.created_at}>
 				{new Date(article.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
 			</time>
-			<div class="blog-body mt-8 text-slate-300">{@html bodyHtml}</div>
+
+			{#if hasAnalogy}
+				<div class="flex flex-wrap gap-2 mt-4" role="tablist" aria-label="Article view">
+					<button
+						type="button"
+						class="view-tab rounded-lg px-3 py-1.5 text-sm font-medium transition-colors {viewMode === 'technical'
+							? 'bg-violet-600 text-white'
+							: 'bg-slate-700/80 text-slate-300 hover:bg-slate-600'}"
+						aria-pressed={viewMode === 'technical'}
+						onclick={() => (viewMode = 'technical')}
+					>
+						Technical
+					</button>
+					<button
+						type="button"
+						class="view-tab rounded-lg px-3 py-1.5 text-sm font-medium transition-colors {viewMode === 'analogy'
+							? 'bg-violet-600 text-white'
+							: 'bg-slate-700/80 text-slate-300 hover:bg-slate-600'}"
+						aria-pressed={viewMode === 'analogy'}
+						onclick={() => (viewMode = 'analogy')}
+					>
+						In plain terms
+					</button>
+				</div>
+			{/if}
+
+			{#if viewMode === 'technical'}
+				<div class="blog-body mt-8 text-slate-300">{@html bodyHtml}</div>
+			{:else if hasAnalogy}
+				<div class="blog-body analogy-block mt-8 text-slate-300">{@html analogyHtml}</div>
+			{/if}
 		</article>
 		<hr class="border-slate-800 my-10" />
 		<CommentSection articleId={article.id} />
@@ -154,5 +189,15 @@
 	}
 	.blog-body :global(tr:nth-child(even) td) {
 		background: rgba(30, 41, 59, 0.4);
+	}
+
+	/* Plain-language / analogy block — visually distinct */
+	.analogy-block {
+		border-left: 3px solid rgba(167, 139, 250, 0.6);
+		padding-left: 1.25rem;
+		background: rgba(124, 58, 237, 0.04);
+		border-radius: 0 0.25rem 0.25rem 0;
+		padding-top: 0.5rem;
+		padding-bottom: 0.5rem;
 	}
 </style>

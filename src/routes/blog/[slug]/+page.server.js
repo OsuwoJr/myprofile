@@ -18,6 +18,9 @@ export async function load({ params, locals }) {
 	const bodyHtml = article?.body
 		? marked.parse(article.body, { async: false })
 		: '';
+	const analogyHtml = article?.analogy
+		? marked.parse(article.analogy, { async: false })
+		: '';
 
-	return { article, bodyHtml };
+	return { article, bodyHtml, analogyHtml };
 }

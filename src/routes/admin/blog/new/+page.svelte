@@ -10,6 +10,7 @@
 	let slug = $state('');
 	let excerpt = $state('');
 	let body = $state('');
+	let analogy = $state('');
 	let topic = $state('');
 	let published = $state(true);
 	let loading = $state(false);
@@ -57,6 +58,7 @@
 			slug: finalSlug,
 			excerpt: excerpt.trim() || null,
 			body: body.trim(),
+			analogy: analogy.trim() || null,
 			topic: topic.trim() || null,
 			published
 		});
@@ -115,6 +117,20 @@
 			bind:value={excerpt}
 			class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-600 text-slate-100"
 			rows="2"
+		></textarea>
+	</div>
+
+	<div>
+		<label for="new-analogy" class="block text-slate-300 mb-1">
+			Analogy / plain-language version
+			<span class="ml-2 text-xs text-slate-500 font-normal">(optional) — For deeper understanding; readers can switch to “In plain terms”. Markdown supported. Leave empty if none yet; you can add it later (e.g. after a comment request).</span>
+		</label>
+		<textarea
+			id="new-analogy"
+			bind:value={analogy}
+			class="w-full px-4 py-3 rounded-lg bg-slate-800 border border-slate-600 text-slate-100 font-mono text-sm leading-relaxed"
+			rows="8"
+			placeholder="e.g. Think of technical SEO like a library: the sitemap is the catalogue…"
 		></textarea>
 	</div>
 
