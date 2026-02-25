@@ -64,7 +64,8 @@
 	const otherTabs = [
 		{ name: 'Portfolio', link: '/portfolio' },
 		{ name: 'Resumes', link: '/resumes' },
-		{ name: 'Blog', link: '/blog' }
+		{ name: 'Blog', link: '/blog' },
+		{ name: 'Request quote', link: '/request-quote' }
 	];
 </script>
 

@@ -3,6 +3,7 @@
 <script>
 	import { supabase } from '$lib/supabase';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 
 	/** @type {{ data: { errorFromUrl?: string | null; messageFromUrl?: string | null } }} */
 	let { data } = $props();
@@ -12,6 +13,13 @@
 	let loading = $state(false);
 	let oauthLoading = $state(false);
 	let error = $state('');
+
+	const redirectTo = $derived(
+		$page.url.searchParams.get('redirect') || '/blog'
+	);
+	const signupUrl = $derived(
+		redirectTo !== '/blog' ? `/auth/signup?redirect=${encodeURIComponent(redirectTo)}` : '/auth/signup'
+	);
 
 	async function handleSubmit(e) {
 		e.preventDefault();
@@ -23,23 +31,25 @@
 			error = err.message;
 			return;
 		}
-		goto('/blog');
+		goto(redirectTo);
 	}
 
 	async function signInWithGoogle() {
 		error = '';
 		oauthLoading = true;
-		const redirectTo = typeof window !== 'undefined' ? `${window.location.origin}/auth/callback` : '';
-		const { data, error: err } = await supabase.auth.signInWithOAuth({
+		const origin = typeof window !== 'undefined' ? window.location.origin : '';
+		const callbackUrl =
+			origin + '/auth/callback' + (redirectTo !== '/blog' ? '?next=' + encodeURIComponent(redirectTo) : '');
+		const { data: oauthData, error: err } = await supabase.auth.signInWithOAuth({
 			provider: 'google',
-			options: { redirectTo }
+			options: { redirectTo: callbackUrl }
 		});
 		oauthLoading = false;
 		if (err) {
 			error = err.message;
 			return;
 		}
-		if (data?.url) window.location.href = data.url;
+		if (oauthData?.url) window.location.href = oauthData.url;
 	}
 </script>
 
@@ -101,6 +111,11 @@
 		</button>
 	</form>
 	<p class="mt-4 text-slate-400 text-sm">
-		No account? <a href="/auth/signup" class="text-violet-400 hover:underline">Sign up</a>
+		No account? <a href={signupUrl} class="text-violet-400 hover:underline">Sign up</a>
 	</p>
+	{#if redirectTo !== '/blog'}
+		<p class="mt-2 text-slate-500 text-xs">
+			Sign in or sign up to continue to your request.
+		</p>
+	{/if}
 </div>

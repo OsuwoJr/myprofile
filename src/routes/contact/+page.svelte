@@ -2,6 +2,7 @@
 
 <script>
 	import ContactMe from '../../components/ContactMe.svelte';
+	let { data } = $props();
 </script>
 
 <svelte:head>
@@ -9,5 +10,5 @@
 </svelte:head>
 
 <main class="flex flex-col flex-1 p-4">
-	<ContactMe />
+	<ContactMe formspreeEndpoint={data.formspreeEndpoint} />
 </main>

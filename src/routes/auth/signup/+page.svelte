@@ -3,6 +3,7 @@
 <script>
 	import { supabase } from '$lib/supabase';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 
 	let email = $state('');
 	let password = $state('');
@@ -11,6 +12,11 @@
 	let oauthLoading = $state(false);
 	let error = $state('');
 	let message = $state('');
+
+	const redirectParam = $derived($page.url.searchParams.get('redirect') || '');
+	const signinUrl = $derived(
+		redirectParam ? `/auth/signin?redirect=${encodeURIComponent(redirectParam)}` : '/auth/signin'
+	);
 
 	async function handleSubmit(e) {
 		e.preventDefault();
@@ -30,24 +36,26 @@
 		message =
 			'You’re registered! If email confirmation is enabled, check your inbox (and spam) and click the link before signing in. Otherwise you can sign in now.';
 		// Redirect after 4 seconds so the user can read the message
-		setTimeout(() => goto('/auth/signin'), 4000);
+		setTimeout(() => goto(signinUrl), 4000);
 	}
 
 	async function signInWithGoogle() {
 		error = '';
 		message = '';
 		oauthLoading = true;
-		const redirectTo = typeof window !== 'undefined' ? `${window.location.origin}/auth/callback` : '';
-		const { data, error: err } = await supabase.auth.signInWithOAuth({
+		const origin = typeof window !== 'undefined' ? window.location.origin : '';
+		const callbackUrl =
+			origin + '/auth/callback' + (redirectParam ? '?next=' + encodeURIComponent(redirectParam) : '');
+		const { data: oauthData, error: err } = await supabase.auth.signInWithOAuth({
 			provider: 'google',
-			options: { redirectTo }
+			options: { redirectTo: callbackUrl }
 		});
 		oauthLoading = false;
 		if (err) {
 			error = err.message;
 			return;
 		}
-		if (data?.url) window.location.href = data.url;
+		if (oauthData?.url) window.location.href = oauthData.url;
 	}
 </script>
 
@@ -86,7 +94,7 @@
 				<p class="font-medium text-green-400 mb-1">Successfully registered</p>
 				<p>{message}</p>
 				<p class="mt-2">
-					<a href="/auth/signin" class="text-violet-400 hover:underline">Sign in now</a>
+					<a href={signinUrl} class="text-violet-400 hover:underline">Sign in now</a>
 					<span class="text-slate-500"> (or you’ll be redirected in a few seconds)</span>
 				</p>
 			</div>
@@ -114,6 +122,6 @@
 		</button>
 	</form>
 	<p class="mt-4 text-slate-400 text-sm">
-		Already have an account? <a href="/auth/signin" class="text-violet-400 hover:underline">Sign in</a>
+		Already have an account? <a href={signinUrl} class="text-violet-400 hover:underline">Sign in</a>
 	</p>
 </div>
