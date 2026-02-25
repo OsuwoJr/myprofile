@@ -117,6 +117,7 @@
                 </a>
             {/each}
             {#if user}
+                <a href="/dashboard" class="duration-200 hover:text-violet-400 text-sm sm:text-base font-normal">Dashboard</a>
                 <button
                     type="button"
                     onclick={signOut}
@@ -183,6 +184,7 @@
             </a>
         {/each}
         {#if user}
+            <a href="/dashboard" class="duration-200 hover:text-violet-400 font-normal whitespace-nowrap shrink-0">Dashboard</a>
             <button
                 type="button"
                 onclick={signOut}

@@ -111,7 +111,7 @@
 	{#if success}
 		<div class="rounded-lg bg-green-900/30 border border-green-600/50 p-6 text-green-300">
 			<p class="font-medium text-green-400">Request sent</p>
-			<p class="mt-1">You’ll receive a reply with a quote and requirements. You can also check your request status from the admin side.</p>
+			<p class="mt-1">You’ll receive a reply with a quote and requirements. View this request and any updates in your <a href="/dashboard" class="text-violet-300 hover:text-violet-200 font-medium underline">dashboard</a>.</p>
 		</div>
 	{:else}
 		<form onsubmit={handleSubmit} class="space-y-6">
