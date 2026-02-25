@@ -56,25 +56,66 @@
 							{new Date(req.created_at).toLocaleDateString()}
 						</span>
 					</div>
-					{#if req.description}
-						<div class="px-4 py-2 text-sm text-slate-400 border-b border-slate-700/50">
-							{req.description.slice(0, 160)}{req.description.length > 160 ? '…' : ''}
-						</div>
-					{/if}
+
+					<!-- Your request (for comparison) -->
+					<div class="p-4 border-b border-slate-700 bg-slate-900/40">
+						<p class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-3">Your request</p>
+						<dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm">
+							{#if req.service_category}
+								<dt class="text-slate-500">Category</dt>
+								<dd class="text-slate-300">{req.service_category}</dd>
+							{/if}
+							{#if req.service_detail}
+								<dt class="text-slate-500">Service</dt>
+								<dd class="text-slate-300">{req.service_detail}</dd>
+							{/if}
+							{#if req.meeting_preference}
+								<dt class="text-slate-500">Meeting preference</dt>
+								<dd class="text-slate-300">{req.meeting_preference}</dd>
+							{/if}
+							{#if req.budget_preference}
+								<dt class="text-slate-500">Budget</dt>
+								<dd class="text-slate-300">{req.budget_preference}</dd>
+							{/if}
+							{#if req.timeline}
+								<dt class="text-slate-500">Timeline</dt>
+								<dd class="text-slate-300">{req.timeline}</dd>
+							{/if}
+							{#if req.example_link}
+								<dt class="text-slate-500 sm:col-span-2">Reference link</dt>
+								<dd class="text-violet-400 sm:col-span-2">
+									<a href={req.example_link} target="_blank" rel="noopener noreferrer" class="break-all hover:underline">{req.example_link}</a>
+								</dd>
+							{/if}
+						</dl>
+						{#if req.description}
+							<div class="mt-3 pt-3 border-t border-slate-700/50">
+								<dt class="text-slate-500 text-xs font-medium uppercase tracking-wide mb-1">Details</dt>
+								<dd class="text-slate-300 whitespace-pre-wrap text-sm">{req.description}</dd>
+							</div>
+						{/if}
+					</div>
+
+					<!-- Admin response (quote) -->
 					{#if req.admin_quote || req.admin_requirements}
 						<div class="p-4 space-y-3">
+							<p class="text-xs font-medium text-violet-400 uppercase tracking-wide mb-2">Response — quote & requirements</p>
 							{#if req.admin_quote}
 								<div>
-									<p class="text-xs font-medium text-violet-400 uppercase tracking-wide mb-1">Quote / summary</p>
+									<p class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Quote / summary</p>
 									<p class="text-slate-300 whitespace-pre-wrap text-sm">{req.admin_quote}</p>
 								</div>
 							{/if}
 							{#if req.admin_requirements}
 								<div>
-									<p class="text-xs font-medium text-violet-400 uppercase tracking-wide mb-1">Requirements / next steps</p>
+									<p class="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Requirements / next steps</p>
 									<p class="text-slate-300 whitespace-pre-wrap text-sm">{req.admin_requirements}</p>
 								</div>
 							{/if}
+						</div>
+					{:else}
+						<div class="p-4 text-slate-500 text-sm border-t border-slate-700/50">
+							No quote yet. You’ll see the response here once it’s sent.
 						</div>
 					{/if}
 				</li>
