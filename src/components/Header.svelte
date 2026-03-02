@@ -74,7 +74,7 @@
 <header class={"sticky z-[10] top-0 duration-200 px-6 border border-solid flex flex-col gap-2 overflow-visible " + (
     y > 0 ? " py-4 bg-slate-950 border-violate-950" : " py-6 bg-transparent border-transparent"
 ) }>
-    <!-- Top row: logo + desktop nav (lg only) + Contact -->
+    <!-- Top row: logo + desktop nav (lg only) -->
     <div class="flex items-center justify-between gap-4">
         <h1 class="font-medium min-w-0 shrink">
             <a href="/" class="hover:text-violet-400 duration-200 no-underline text-inherit">
@@ -131,13 +131,6 @@
                 </a>
             {/if}
         </div>
-
-        <a
-            href="/contact"
-            class="contact-btn-glow relative overflow-hidden px-2 md:px-5 py-2 group rounded-full bg-white text-slate-950 max-w-max border border-transparent transition-transform duration-300 ease-in-out focus:outline-none hover:border-violet-500 active:border-violet-300 duration-200 hover:text-slate-950 shrink-0"
-        >
-            Contact Me
-        </a>
     </div>
 
     <!-- Small/medium: nav row at bottom of header (no hamburger overlay) -->
@@ -201,23 +194,6 @@
 </header>
 
 <style>
-    /* Contact Me button: continuous margin glow with occasional brighter pulse */
-    .contact-btn-glow {
-        box-shadow: 0 0 12px rgba(255, 255, 255, 0.35);
-        animation: contactGlow 2.8s ease-in-out infinite;
-    }
-    .contact-btn-glow:hover {
-        box-shadow: 0 0 18px rgba(255, 255, 255, 0.5), 0 0 28px rgba(139, 92, 246, 0.25);
-    }
-    @keyframes contactGlow {
-        0%, 100% {
-            box-shadow: 0 0 12px rgba(255, 255, 255, 0.35);
-        }
-        50% {
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.65), 0 0 32px rgba(255, 255, 255, 0.25);
-        }
-    }
-
     /* Skills dropdown: fixed height + obvious scrollbar + easy-to-see links */
     .skills-dropdown-panel {
         max-height: min(70vh, 320px);

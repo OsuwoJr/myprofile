@@ -1,9 +1,11 @@
 <svelte:options runes={true} />
 
 <script>
+	import { page } from '$app/stores';
 	import '../app.css';
 	import Footer from '../components/Footer.svelte';
 	import Header from '../components/Header.svelte';
+	import FloatingContactButton from '../components/FloatingContactButton.svelte';
 
 	let y = $state(0);
 	let innerHeight = $state(0);
@@ -16,6 +18,9 @@
 </script>
 
   <div class="relative flex flex-col max-w-[1400px] mx-auto w-full text-sm sm:text-base min-h-screen">
+    {#if $page.url.pathname !== '/contact'}
+      <FloatingContactButton />
+    {/if}
     <div  class={"fixed bottom-0 w-full duration-200 flex p-10 z-[10] " +
     (y > 0
         ? " opacity-full pointer-events-auto"

@@ -2,7 +2,7 @@ import { redirect } from '@sveltejs/kit';
 import type { ServerLoad } from '@sveltejs/kit';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-export const load: ServerLoad = async ({ locals }) => {
+export const load: ServerLoad = async ({ locals, url }) => {
 	const supabase = (locals as { supabase: SupabaseClient }).supabase;
 	const session = await supabase.auth.getSession();
 	
@@ -30,6 +30,7 @@ export const load: ServerLoad = async ({ locals }) => {
 
 	return {
 		isAdmin: true,
-		userEmail: user.email
+		userEmail: user.email,
+		pathname: url.pathname
 	};
 };
