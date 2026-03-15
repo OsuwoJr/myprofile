@@ -63,6 +63,10 @@
 			<p class="text-slate-400">No articles yet. Check back soon.</p>
 		</div>
 	{:else}
+		<p class="mb-4">
+			<a href="/blog/playlists" class="text-violet-400 hover:underline text-sm">Browse playlists →</a>
+			<span class="text-slate-500 text-sm ml-2">Follow curated reading order (e.g. intro to software engineering, cyber security)</span>
+		</p>
 		<ol class="blog-list">
 			{#each articles as article, index (article.id)}
 				<li class="blog-list-item">
