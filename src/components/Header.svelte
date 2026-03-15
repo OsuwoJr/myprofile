@@ -121,13 +121,20 @@
                 <button
                     type="button"
                     onclick={signOut}
-                    class="duration-200 hover:text-violet-400 bg-transparent border-none cursor-pointer p-0 text-inherit text-sm sm:text-base font-normal"
+                    class="duration-200 hover:text-violet-400 bg-transparent border-none cursor-pointer p-2 -m-2 rounded-md text-inherit text-lg inline-flex items-center justify-center"
+                    aria-label="Sign out"
+                    title="Sign out"
                 >
-                    Sign out
+                    <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
                 </button>
             {:else}
-                <a href="/auth/signin" class="duration-200 hover:text-violet-400 text-sm sm:text-base font-normal">
-                    Sign in
+                <a
+                    href="/auth/signin"
+                    class="duration-200 hover:text-violet-400 p-2 -m-2 rounded-md text-lg inline-flex items-center justify-center"
+                    aria-label="Sign in"
+                    title="Sign in"
+                >
+                    <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
                 </a>
             {/if}
         </div>
@@ -181,13 +188,20 @@
             <button
                 type="button"
                 onclick={signOut}
-                class="duration-200 hover:text-violet-400 bg-transparent border-none cursor-pointer p-0 text-inherit font-normal whitespace-nowrap shrink-0"
+                class="duration-200 hover:text-violet-400 bg-transparent border-none cursor-pointer p-2 -m-2 rounded-md text-inherit text-lg inline-flex items-center justify-center shrink-0"
+                aria-label="Sign out"
+                title="Sign out"
             >
-                Sign out
+                <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
             </button>
         {:else}
-            <a href="/auth/signin" class="duration-200 hover:text-violet-400 font-normal whitespace-nowrap shrink-0">
-                Sign in
+            <a
+                href="/auth/signin"
+                class="duration-200 hover:text-violet-400 p-2 -m-2 rounded-md text-lg inline-flex items-center justify-center shrink-0"
+                aria-label="Sign in"
+                title="Sign in"
+            >
+                <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
             </a>
         {/if}
     </nav>
