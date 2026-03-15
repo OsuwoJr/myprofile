@@ -16,6 +16,12 @@
 	let savingEdit = $state(false);
 	let deletingId = $state(null);
 
+	// Like/dislike (YouTube-style)
+	let likeCount = $state(0);
+	let dislikeCount = $state(0);
+	let userReaction = $state(null); // null | 'like' | 'dislike'
+	let reactionLoading = $state(false);
+
 	$effect(() => {
 		(async () => {
 			const {
@@ -50,7 +56,76 @@
 	$effect(() => {
 		if (!articleId) return;
 		fetchComments();
+		fetchReactionCounts();
 	});
+
+	async function fetchReactionCounts() {
+		if (!articleId) return;
+		const [likeRes, dislikeRes] = await Promise.all([
+			supabase.from('article_reactions').select('id', { count: 'exact', head: true }).eq('article_id', articleId).eq('reaction', 'like'),
+			supabase.from('article_reactions').select('id', { count: 'exact', head: true }).eq('article_id', articleId).eq('reaction', 'dislike')
+		]);
+		likeCount = likeRes.count ?? 0;
+		dislikeCount = dislikeRes.count ?? 0;
+	}
+
+	async function fetchUserReaction() {
+		if (!user || !articleId) {
+			userReaction = null;
+			return;
+		}
+		const { data } = await supabase
+			.from('article_reactions')
+			.select('reaction')
+			.eq('article_id', articleId)
+			.eq('user_id', user.id)
+			.maybeSingle();
+		userReaction = data?.reaction ?? null;
+	}
+
+	$effect(() => {
+		if (!articleId) return;
+		const _ = user; // track user so we refetch when auth state changes
+		fetchUserReaction();
+	});
+
+	async function toggleLike() {
+		if (!user || !articleId || reactionLoading) return;
+		reactionLoading = true;
+		if (userReaction === 'like') {
+			await supabase.from('article_reactions').delete().eq('article_id', articleId).eq('user_id', user.id);
+			userReaction = null;
+			likeCount = Math.max(0, likeCount - 1);
+		} else {
+			await supabase.from('article_reactions').upsert(
+				{ article_id: articleId, user_id: user.id, reaction: 'like' },
+				{ onConflict: 'article_id,user_id' }
+			);
+			if (userReaction === 'dislike') dislikeCount = Math.max(0, dislikeCount - 1);
+			userReaction = 'like';
+			likeCount = likeCount + 1;
+		}
+		reactionLoading = false;
+	}
+
+	async function toggleDislike() {
+		if (!user || !articleId || reactionLoading) return;
+		reactionLoading = true;
+		if (userReaction === 'dislike') {
+			await supabase.from('article_reactions').delete().eq('article_id', articleId).eq('user_id', user.id);
+			userReaction = null;
+			dislikeCount = Math.max(0, dislikeCount - 1);
+		} else {
+			await supabase.from('article_reactions').upsert(
+				{ article_id: articleId, user_id: user.id, reaction: 'dislike' },
+				{ onConflict: 'article_id,user_id' }
+			);
+			if (userReaction === 'like') likeCount = Math.max(0, likeCount - 1);
+			userReaction = 'dislike';
+			dislikeCount = dislikeCount + 1;
+		}
+		reactionLoading = false;
+	}
 
 	function startEdit(comment) {
 		editingId = comment.id;
@@ -130,6 +205,39 @@
 </script>
 
 <section class="mt-12 pt-8 border-t border-slate-700">
+	<!-- Like / Dislike (YouTube-style) -->
+	<div class="flex items-center gap-1 mb-6">
+		<button
+			type="button"
+			disabled={reactionLoading}
+			onclick={toggleLike}
+			class="flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium transition-colors {userReaction === 'like'
+				? 'bg-violet-600/30 text-violet-400'
+				: 'bg-slate-700/60 text-slate-400 hover:bg-slate-600 hover:text-slate-200'} disabled:opacity-50"
+			title="Like"
+			aria-label="Like this post"
+		>
+			<i class="fa-solid fa-thumbs-up text-base"></i>
+			<span>{likeCount}</span>
+		</button>
+		<button
+			type="button"
+			disabled={reactionLoading}
+			onclick={toggleDislike}
+			class="flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium transition-colors {userReaction === 'dislike'
+				? 'bg-violet-600/30 text-violet-400'
+				: 'bg-slate-700/60 text-slate-400 hover:bg-slate-600 hover:text-slate-200'} disabled:opacity-50"
+			title="Dislike"
+			aria-label="Dislike this post"
+		>
+			<i class="fa-solid fa-thumbs-down text-base"></i>
+			<span>{dislikeCount}</span>
+		</button>
+		{#if !user}
+			<span class="text-slate-500 text-xs ml-2">Sign in to like or dislike</span>
+		{/if}
+	</div>
+
 	<h2 class="text-xl font-semibold text-slate-100 mb-4">Comments</h2>
 
 	{#if !user}
