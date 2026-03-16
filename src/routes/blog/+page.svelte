@@ -63,10 +63,12 @@
 			<p class="text-slate-400">No articles yet. Check back soon.</p>
 		</div>
 	{:else}
-		<p class="mb-4">
-			<a href="/blog/playlists" class="text-violet-400 hover:underline text-sm">Browse playlists →</a>
-			<span class="text-slate-500 text-sm ml-2">Follow curated reading order (e.g. intro to software engineering, cyber security)</span>
-		</p>
+		<a href="/blog/playlists" class="playlist-promo">
+			<span class="playlist-promo-badge">Recommended</span>
+			<span class="playlist-promo-heading">Follow a curated path</span>
+			<p class="playlist-promo-desc">Browse playlists and read in order—e.g. intro to software engineering, cyber security—instead of scrolling through everything.</p>
+			<span class="playlist-promo-cta">Browse playlists →</span>
+		</a>
 		<ol class="blog-list">
 			{#each articles as article, index (article.id)}
 				<li class="blog-list-item">
@@ -311,9 +313,87 @@
 		padding: 3rem 1rem;
 	}
 
+	/* Playlist callout – stands out so readers use it as the blog grows */
+	.playlist-promo {
+		display: block;
+		margin-bottom: 2rem;
+		padding: 1.5rem 1.5rem 1.25rem;
+		background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(30, 27, 75, 0.5) 100%);
+		border: 1px solid rgba(139, 92, 246, 0.45);
+		border-radius: 1rem;
+		text-decoration: none;
+		color: inherit;
+		position: relative;
+		overflow: hidden;
+		transition: border-color 0.2s ease, box-shadow 0.25s ease, transform 0.2s ease;
+		box-shadow: 0 4px 24px -8px rgba(124, 58, 237, 0.2);
+	}
+	.playlist-promo::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 3px;
+		background: linear-gradient(90deg, #7c3aed, #a78bfa);
+		border-radius: 1rem 1rem 0 0;
+	}
+	.playlist-promo:hover {
+		border-color: rgba(167, 139, 250, 0.6);
+		box-shadow: 0 12px 40px -12px rgba(124, 58, 237, 0.35);
+		transform: translateY(-2px);
+	}
+	.playlist-promo-badge {
+		display: inline-block;
+		font-size: 0.7rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: #c4b5fd;
+		background: rgba(139, 92, 246, 0.25);
+		padding: 0.25rem 0.6rem;
+		border-radius: 0.375rem;
+		margin-bottom: 0.75rem;
+	}
+	.playlist-promo-heading {
+		display: block;
+		font-size: 1.1rem;
+		font-weight: 600;
+		color: #f1f5f9;
+		margin-bottom: 0.35rem;
+	}
+	.playlist-promo-desc {
+		font-size: 0.9rem;
+		color: #94a3b8;
+		line-height: 1.5;
+		margin: 0 0 0.75rem;
+	}
+	.playlist-promo-cta {
+		font-size: 0.9rem;
+		font-weight: 600;
+		color: #a78bfa;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.25rem;
+	}
+	.playlist-promo:hover .playlist-promo-cta {
+		color: #c4b5fd;
+	}
+
 	@media (max-width: 640px) {
 		.blog-page {
 			padding: 1.5rem 1rem 3rem;
+		}
+
+		.playlist-promo {
+			padding: 1.25rem 1.25rem 1rem;
+			margin-bottom: 1.5rem;
+		}
+		.playlist-promo-heading {
+			font-size: 1rem;
+		}
+		.playlist-promo-desc {
+			font-size: 0.85rem;
 		}
 
 		.blog-card {
