@@ -14,6 +14,7 @@
 	let excerpt = $state('');
 	let body = $state('');
 	let analogy = $state('');
+	let youtubeLink = $state('');
 	let topic = $state('');
 	let published = $state(true);
 	let saving = $state(false);
@@ -35,6 +36,7 @@
 				excerpt = article.excerpt ?? '';
 				body = article.body ?? '';
 				analogy = article.analogy ?? '';
+				youtubeLink = article.youtube_link ?? '';
 				topic = article.topic ?? '';
 				published = article.published ?? true;
 			}
@@ -84,6 +86,7 @@
 				excerpt: excerpt.trim() || null,
 				body: body.trim(),
 				analogy: analogy.trim() || null,
+				youtube_link: youtubeLink.trim() || null,
 				topic: topic.trim() || null,
 				published,
 				updated_at: new Date().toISOString()
@@ -176,6 +179,20 @@
 				rows="8"
 				placeholder="e.g. Think of technical SEO like a library…"
 			></textarea>
+		</div>
+
+		<div>
+			<label for="edit-youtube-link" class="block text-slate-300 mb-1">
+				YouTube link
+				<span class="ml-2 text-xs text-slate-500 font-normal">(optional) — If provided, readers will see a “Watch on YouTube” link on the article page.</span>
+			</label>
+			<input
+				id="edit-youtube-link"
+				bind:value={youtubeLink}
+				class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-600 text-slate-100"
+				type="url"
+				placeholder="e.g. https://www.youtube.com/watch?v=VIDEO_ID"
+			/>
 		</div>
 
 		<!-- Body + preview -->

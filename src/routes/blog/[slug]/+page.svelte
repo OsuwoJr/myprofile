@@ -10,6 +10,8 @@
 	const bodyHtml = $derived(data.bodyHtml ?? '');
 	const analogyHtml = $derived(data.analogyHtml ?? '');
 	const hasAnalogy = $derived(Boolean(analogyHtml?.trim()));
+	const youtubeLink = $derived(article?.youtube_link ?? '');
+	const hasYoutubeLink = $derived(Boolean(youtubeLink?.trim()));
 
 	// When analogy exists, reader can switch view (default: technical)
 	let viewMode = $state('technical'); // 'technical' | 'analogy'
@@ -31,6 +33,14 @@
 			<time class="text-slate-500 block mt-2 text-sm" datetime={article.created_at}>
 				{new Date(article.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
 			</time>
+
+			{#if hasYoutubeLink}
+				<div class="youtube-link mt-3">
+					<a href={youtubeLink} target="_blank" rel="noopener noreferrer" class="watch-link">
+						Watch on YouTube →
+					</a>
+				</div>
+			{/if}
 
 			{#if hasAnalogy}
 				<div class="flex flex-wrap gap-2 mt-4" role="tablist" aria-label="Article view">
@@ -199,5 +209,23 @@
 		border-radius: 0 0.25rem 0.25rem 0;
 		padding-top: 0.5rem;
 		padding-bottom: 0.5rem;
+	}
+
+	.youtube-link {
+		margin-top: 0.75rem;
+	}
+
+	.watch-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		color: #a78bfa;
+		font-weight: 600;
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
+	.watch-link:hover {
+		color: #c4b5fd;
 	}
 </style>

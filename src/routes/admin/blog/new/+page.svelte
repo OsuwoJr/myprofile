@@ -11,6 +11,7 @@
 	let excerpt = $state('');
 	let body = $state('');
 	let analogy = $state('');
+	let youtubeLink = $state('');
 	let topic = $state('');
 	let published = $state(true);
 	let loading = $state(false);
@@ -59,6 +60,7 @@
 			excerpt: excerpt.trim() || null,
 			body: body.trim(),
 			analogy: analogy.trim() || null,
+			youtube_link: youtubeLink.trim() || null,
 			topic: topic.trim() || null,
 			published
 		});
@@ -132,6 +134,20 @@
 			rows="8"
 			placeholder="e.g. Think of technical SEO like a library: the sitemap is the catalogue…"
 		></textarea>
+	</div>
+
+	<div>
+		<label for="new-youtube-link" class="block text-slate-300 mb-1">
+			YouTube link
+			<span class="ml-2 text-xs text-slate-500 font-normal">(optional) — If provided, readers will see a “Watch on YouTube” link on the article page.</span>
+		</label>
+		<input
+			id="new-youtube-link"
+			bind:value={youtubeLink}
+			class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-600 text-slate-100"
+			type="url"
+			placeholder="e.g. https://www.youtube.com/watch?v=VIDEO_ID"
+		/>
 	</div>
 
 	<!-- Body + preview -->

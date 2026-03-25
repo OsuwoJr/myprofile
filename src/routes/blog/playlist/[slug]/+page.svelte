@@ -24,7 +24,7 @@
 			}
 			const { data: rows } = await supabase
 				.from('blog_playlist_items')
-				.select('id, position, articles(id, title, slug, excerpt, published)')
+				.select('id, position, articles(id, title, slug, excerpt, youtube_link, published)')
 				.eq('playlist_id', playlist.id)
 				.order('position', { ascending: true });
 			items = (rows ?? [])
@@ -67,13 +67,26 @@
 			{#each items as item, index (item.id)}
 				<li class="playlist-article-item">
 					<span class="playlist-num" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-					<a href="/blog/{item.slug}" class="playlist-article-link">
-						<span class="playlist-article-title">{item.title}</span>
-						{#if item.excerpt}
-							<span class="playlist-article-excerpt">{item.excerpt}</span>
+					<div class="playlist-article-wrap">
+						<a href="/blog/{item.slug}" class="playlist-article-link">
+							<span class="playlist-article-title">{item.title}</span>
+							{#if item.excerpt}
+								<span class="playlist-article-excerpt">{item.excerpt}</span>
+							{/if}
+							<span class="playlist-article-cta">Read →</span>
+						</a>
+
+						{#if item.youtube_link}
+							<a
+								href={item.youtube_link}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="playlist-youtube-link"
+							>
+								Watch on YouTube →
+							</a>
 						{/if}
-						<span class="playlist-article-cta">Read →</span>
-					</a>
+					</div>
 				</li>
 			{/each}
 		</ol>
@@ -127,6 +140,14 @@
 		gap: 1rem;
 		align-items: flex-start;
 	}
+
+	.playlist-article-wrap {
+		flex: 1;
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.55rem;
+	}
 	.playlist-num {
 		flex-shrink: 0;
 		font-size: 1.25rem;
@@ -175,5 +196,20 @@
 		font-weight: 500;
 		color: #a78bfa;
 		margin-top: 0.35rem;
+	}
+
+	.playlist-youtube-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		color: #a78bfa;
+		font-weight: 600;
+		text-decoration: underline;
+		text-underline-offset: 3px;
+		font-size: 0.85rem;
+	}
+
+	.playlist-youtube-link:hover {
+		color: #c4b5fd;
 	}
 </style>
