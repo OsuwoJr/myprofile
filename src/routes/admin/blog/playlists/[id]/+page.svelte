@@ -11,6 +11,7 @@
 	let title = $state('');
 	let slug = $state('');
 	let description = $state('');
+	let youtubeLink = $state('');
 	let loading = $state(true);
 	let saving = $state(false);
 	let error = $state('');
@@ -51,6 +52,7 @@
 				title = playlist.title ?? '';
 				slug = playlist.slug ?? '';
 				description = playlist.description ?? '';
+				youtubeLink = playlist.youtube_link ?? '';
 			}
 			loading = false;
 		})();
@@ -69,7 +71,8 @@
 			.update({
 				title: title.trim(),
 				slug: finalSlug,
-				description: description.trim() || null
+				description: description.trim() || null,
+				youtube_link: youtubeLink.trim() || null
 			})
 			.eq('id', playlist.id);
 		saving = false;
@@ -77,7 +80,7 @@
 			error = err.message;
 			return;
 		}
-		playlist = { ...playlist, title: title.trim(), slug: slug.trim(), description: description.trim() || null };
+		playlist = { ...playlist, title: title.trim(), slug: slug.trim(), description: description.trim() || null, youtube_link: youtubeLink.trim() || null };
 	}
 
 	async function addArticle() {
@@ -206,6 +209,17 @@
 					class="w-full bg-slate-800 border border-slate-600 rounded px-3 py-2 text-slate-100"
 					placeholder="A short description for readers"
 				></textarea>
+			</div>
+			<div>
+				<label for="pl-youtube-link" class="block text-slate-300 text-sm mb-1">YouTube link (optional)</label>
+				<input
+					id="pl-youtube-link"
+					type="url"
+					bind:value={youtubeLink}
+					class="w-full bg-slate-800 border border-slate-600 rounded px-3 py-2 text-slate-100"
+					placeholder="e.g. https://www.youtube.com/watch?v=VIDEO_ID"
+				/>
+				<p class="text-slate-500 text-xs mt-1">Displayed as “Watch on YouTube” on the playlist page.</p>
 			</div>
 			<button
 				type="button"

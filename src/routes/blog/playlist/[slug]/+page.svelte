@@ -14,7 +14,7 @@
 			loading = true;
 			const { data: pl } = await supabase
 				.from('blog_playlists')
-				.select('id, title, slug, description')
+				.select('id, title, slug, description, youtube_link')
 				.eq('slug', slug)
 				.maybeSingle();
 			playlist = pl ?? null;
@@ -59,6 +59,16 @@
 			<h1 class="playlist-title">{playlist.title}</h1>
 			{#if playlist.description}
 				<p class="playlist-desc">{playlist.description}</p>
+			{/if}
+			{#if playlist.youtube_link}
+				<a
+					href={playlist.youtube_link}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="playlist-youtube-header-link"
+				>
+					Watch on YouTube →
+				</a>
 			{/if}
 			<p class="playlist-instruction text-slate-400 text-sm mt-2">Read in order for a systematic path.</p>
 		</header>
@@ -210,6 +220,22 @@
 	}
 
 	.playlist-youtube-link:hover {
+		color: #c4b5fd;
+	}
+
+	.playlist-youtube-header-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		color: #a78bfa;
+		font-weight: 700;
+		text-decoration: underline;
+		text-underline-offset: 3px;
+		font-size: 0.95rem;
+		margin-top: 0.5rem;
+	}
+
+	.playlist-youtube-header-link:hover {
 		color: #c4b5fd;
 	}
 </style>
