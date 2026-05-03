@@ -12,7 +12,7 @@
 
 ### 1.1 Secure Coding Fundamentals
 1. ✅ What Is Secure Coding and Why Every Developer Must Care
-2. The OWASP Top 10 Explained With Real Code Examples
+2. ✅ The OWASP Top 10 Explained With Real Code Examples
 3. OWASP Top 10 for APIs — The Developer's Complete Guide
 4. Input Validation vs. Sanitization: The Difference That Prevents Attacks
 5. How to Prevent SQL Injection in Modern Web Apps (Node.js, Supabase, PostgreSQL)
