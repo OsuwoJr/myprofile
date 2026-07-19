@@ -1,382 +1,131 @@
 <svelte:options runes={true} />
 
 <script>
-	import { supabase } from '$lib/supabase';
+	import BlogArticleCard from '$lib/components/BlogArticleCard.svelte';
+	import BlogFeaturedHero from '$lib/components/BlogFeaturedHero.svelte';
+	import BlogTopicFilter from '$lib/components/BlogTopicFilter.svelte';
+	import {
+		articleMatchesSearch,
+		articleMatchesTopic,
+		uniqueTopics
+	} from '$lib/blog.js';
 
-	let articles = $state([]);
-	let loading = $state(true);
+	let { data } = $props();
 
-	$effect(() => {
-		(async () => {
-			loading = true;
-			const { data } = await supabase
-				.from('articles')
-				.select('id, slug, title, excerpt, topic, created_at')
-				.eq('published', true)
-				.order('created_at', { ascending: false });
-			articles = data ?? [];
-			loading = false;
-		})();
-	});
+	const articles = $derived(data.articles ?? []);
+	const featured = $derived(articles[0] ?? null);
+	const restArticles = $derived(articles.slice(1));
+	const topics = $derived(uniqueTopics(articles));
 
-	/** Split topic string by comma for multiple tag pills; trim and filter empty. */
-	function topicTags(topic) {
-		if (!topic || typeof topic !== 'string') return [];
-		return topic.split(',').map((t) => t.trim()).filter(Boolean);
-	}
+	let activeTopic = $state('All');
+	let searchQuery = $state('');
 
-	function formatDate(iso) {
-		return new Date(iso).toLocaleDateString('en-US', {
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric'
-		});
-	}
+	const filteredRest = $derived(
+		restArticles.filter(
+			(a) => articleMatchesTopic(a, activeTopic) && articleMatchesSearch(a, searchQuery)
+		)
+	);
+
+	const showFeatured = $derived(
+		featured &&
+			articleMatchesTopic(featured, activeTopic) &&
+			articleMatchesSearch(featured, searchQuery)
+	);
+
+	const articleCountLabel = $derived(
+		articles.length === 1 ? '1 article' : `${articles.length} articles`
+	);
 </script>
 
 <svelte:head>
 	<title>Blog | Osuwo Odongo John Frederick</title>
 </svelte:head>
 
-<div class="blog-page">
-	{#if loading}
-		<div class="blog-list" role="status" aria-label="Loading articles">
-			{#each [1, 2, 3] as i}
-				<div class="blog-card blog-card-skeleton">
-					<div class="skeleton-number"></div>
-					<div class="skeleton-content">
-						<div class="skeleton-line short"></div>
-						<div class="skeleton-line long"></div>
-						<div class="skeleton-line medium"></div>
-						<div class="skeleton-line short"></div>
-					</div>
-				</div>
-			{/each}
-		</div>
-	{:else if articles.length === 0}
-		<div class="blog-empty">
-			<p class="text-slate-400">No articles yet. Check back soon.</p>
+<div class="mx-auto max-w-6xl px-4 sm:px-6 py-10 sm:py-14 pb-16">
+	<header class="mb-10 sm:mb-12">
+		<p class="mb-2 text-xs font-bold uppercase tracking-widest text-violet-400">Writing</p>
+		<h1 class="poppins mb-3 text-3xl sm:text-4xl font-bold text-slate-100 leading-tight">
+			Blog
+		</h1>
+		<p class="max-w-2xl text-slate-400 text-base sm:text-lg leading-relaxed">
+			Notes on frontend, security, SEO, and building in production.
+		</p>
+		<p class="mt-3 text-sm text-slate-500">{articleCountLabel}</p>
+	</header>
+
+	{#if articles.length === 0}
+		<div class="rounded-xl border border-slate-700/60 bg-slate-900/40 py-16 text-center">
+			<p class="text-slate-400 mb-4">No articles yet. Check back soon.</p>
+			<a href="/" class="text-violet-400 hover:text-violet-300 text-sm font-medium no-underline">
+				← Back to home
+			</a>
 		</div>
 	{:else}
-		<a href="/blog/playlists" class="playlist-promo">
-			<span class="playlist-promo-badge">Recommended</span>
-			<span class="playlist-promo-heading">Follow a curated path</span>
-			<p class="playlist-promo-desc">Browse playlists and read in order—e.g. intro to software engineering, cyber security—instead of scrolling through everything.</p>
-			<span class="playlist-promo-cta">Browse playlists →</span>
-		</a>
-		<ol class="blog-list">
-			{#each articles as article, index (article.id)}
-				<li class="blog-list-item">
-					<a
-						href="/blog/{article.slug}"
-						class="blog-card hover-lift"
-					>
-						<span class="blog-card-number" aria-hidden="true">
-							{String(index + 1).padStart(2, '0')}
-						</span>
-						<div class="blog-card-body">
-							{#if article.topic}
-								<div class="blog-tags">
-									{#each topicTags(article.topic) as tag}
-										<span class="blog-tag">{tag}</span>
-									{/each}
-								</div>
-							{/if}
-							<h2 class="blog-card-title">{article.title}</h2>
-							{#if article.excerpt}
-								<p class="blog-card-excerpt">{article.excerpt}</p>
-							{/if}
-							<div class="blog-card-meta">
-								<time class="blog-card-date" datetime={article.created_at}>
-									{formatDate(article.created_at)}
-								</time>
-								<span class="blog-card-cta">Read article →</span>
-							</div>
-						</div>
-					</a>
-				</li>
-			{/each}
-		</ol>
+		{#if showFeatured}
+			<section class="mb-10 sm:mb-12 fade-in-up" aria-label="Latest article">
+				<BlogFeaturedHero article={featured} />
+			</section>
+		{/if}
+
+		<section class="mb-8 space-y-5" aria-label="Browse articles">
+			<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+				<label class="relative block w-full sm:max-w-xs">
+					<span class="sr-only">Search articles</span>
+					<input
+						type="search"
+						bind:value={searchQuery}
+						placeholder="Search articles…"
+						class="w-full min-h-[44px] rounded-lg border border-slate-700 bg-slate-900/60 px-4 py-2.5 text-sm text-slate-200 placeholder:text-slate-500 focus:border-violet-600 focus:outline-none focus:ring-1 focus:ring-violet-600"
+					/>
+				</label>
+				<a
+					href="/blog/playlists"
+					class="inline-flex min-h-[44px] shrink-0 items-center justify-center rounded-lg border border-violet-800/50 bg-violet-950/30 px-4 py-2 text-sm font-medium text-violet-300 no-underline hover:border-violet-600/60 hover:bg-violet-950/50 hover:text-violet-200 transition-colors"
+				>
+					Browse playlists →
+				</a>
+			</div>
+
+			{#if topics.length > 0}
+				<BlogTopicFilter
+					{topics}
+					{activeTopic}
+					onSelect={(t) => (activeTopic = t)}
+				/>
+			{/if}
+		</section>
+
+		{#if filteredRest.length === 0 && !showFeatured}
+			<div class="rounded-xl border border-slate-700/60 bg-slate-900/40 py-12 text-center">
+				<p class="text-slate-400 mb-4">
+					{#if searchQuery.trim()}
+						No articles match your search.
+					{:else}
+						No articles in this topic.
+					{/if}
+				</p>
+				<button
+					type="button"
+					class="text-violet-400 hover:text-violet-300 text-sm font-medium bg-transparent border-none cursor-pointer"
+					onclick={() => {
+						activeTopic = 'All';
+						searchQuery = '';
+					}}
+				>
+					Clear filters
+				</button>
+			</div>
+		{:else if filteredRest.length > 0}
+			<section aria-label="All articles">
+				<h2 class="sr-only">More articles</h2>
+				<ul class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 list-none p-0 m-0">
+					{#each filteredRest as article, index (article.id)}
+						<li>
+							<BlogArticleCard {article} {index} />
+						</li>
+					{/each}
+				</ul>
+			</section>
+		{/if}
 	{/if}
 </div>
-
-<style>
-	.blog-page {
-		max-width: 42rem;
-		margin: 0 auto;
-		padding: 2.5rem 1.5rem 4rem;
-	}
-
-	.blog-list {
-		list-style: none;
-		padding: 0;
-		margin: 0;
-		display: flex;
-		flex-direction: column;
-		gap: 1.25rem;
-	}
-
-	.blog-card {
-		display: flex;
-		gap: 1.25rem;
-		align-items: flex-start;
-		padding: 1.5rem 1.25rem;
-		background: rgba(30, 41, 59, 0.5);
-		border: 1px solid rgba(71, 85, 105, 0.4);
-		border-radius: 1rem;
-		text-decoration: none;
-		color: inherit;
-		transition: border-color 0.2s ease, background 0.2s ease, transform 0.25s ease, box-shadow 0.25s ease;
-	}
-
-	.blog-card:hover {
-		border-color: rgba(139, 92, 246, 0.5);
-		background: rgba(30, 41, 59, 0.75);
-		box-shadow: 0 10px 40px -12px rgba(124, 58, 237, 0.25);
-	}
-
-	.blog-card-number {
-		flex-shrink: 0;
-		font-size: 1.5rem;
-		font-weight: 700;
-		color: rgba(167, 139, 250, 0.5);
-		line-height: 1;
-		font-variant-numeric: tabular-nums;
-		min-width: 2.25rem;
-		text-align: right;
-	}
-
-	.blog-card:hover .blog-card-number {
-		color: #a78bfa;
-	}
-
-	.blog-card-body {
-		flex: 1;
-		min-width: 0;
-	}
-
-	.blog-tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.35rem 0.5rem;
-		margin-bottom: 0.5rem;
-	}
-
-	.blog-tag {
-		font-size: 0.7rem;
-		font-weight: 600;
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-		color: #a78bfa;
-		background: rgba(139, 92, 246, 0.15);
-		padding: 0.2rem 0.5rem;
-		border-radius: 0.25rem;
-	}
-
-	.blog-card-title {
-		font-size: 1.15rem;
-		font-weight: 600;
-		color: #f1f5f9;
-		line-height: 1.35;
-		margin: 0 0 0.5rem;
-	}
-
-	.blog-card:hover .blog-card-title {
-		color: #e2e8f0;
-	}
-
-	.blog-card-excerpt {
-		font-size: 0.9rem;
-		color: #94a3b8;
-		line-height: 1.55;
-		margin: 0 0 0.75rem;
-		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		line-clamp: 2;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
-	}
-
-	.blog-card-meta {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 0.75rem;
-		flex-wrap: wrap;
-	}
-
-	.blog-card-date {
-		font-size: 0.8rem;
-		color: #64748b;
-	}
-
-	.blog-card-cta {
-		font-size: 0.8rem;
-		font-weight: 500;
-		color: #a78bfa;
-		opacity: 0.9;
-	}
-
-	.blog-card:hover .blog-card-cta {
-		opacity: 1;
-	}
-
-	/* Skeleton loading */
-	.blog-card-skeleton {
-		pointer-events: none;
-		cursor: default;
-	}
-
-	.blog-card-skeleton .skeleton-number {
-		width: 2.25rem;
-		height: 1.5rem;
-		background: rgba(71, 85, 105, 0.4);
-		border-radius: 0.25rem;
-		color: transparent;
-	}
-
-	.skeleton-content {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-	}
-
-	.skeleton-line {
-		height: 0.875rem;
-		background: rgba(71, 85, 105, 0.35);
-		border-radius: 0.25rem;
-		animation: skeleton-pulse 1.5s ease-in-out infinite;
-	}
-
-	.skeleton-line.short {
-		width: 40%;
-	}
-
-	.skeleton-line.medium {
-		width: 65%;
-	}
-
-	.skeleton-line.long {
-		width: 95%;
-	}
-
-	@keyframes skeleton-pulse {
-		0%,
-		100% {
-			opacity: 0.6;
-		}
-		50% {
-			opacity: 1;
-		}
-	}
-
-	.blog-empty {
-		text-align: center;
-		padding: 3rem 1rem;
-	}
-
-	/* Playlist callout – stands out so readers use it as the blog grows */
-	.playlist-promo {
-		display: block;
-		margin-bottom: 2rem;
-		padding: 1.5rem 1.5rem 1.25rem;
-		background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(30, 27, 75, 0.5) 100%);
-		border: 1px solid rgba(139, 92, 246, 0.45);
-		border-radius: 1rem;
-		text-decoration: none;
-		color: inherit;
-		position: relative;
-		overflow: hidden;
-		transition: border-color 0.2s ease, box-shadow 0.25s ease, transform 0.2s ease;
-		box-shadow: 0 4px 24px -8px rgba(124, 58, 237, 0.2);
-	}
-	.playlist-promo::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		height: 3px;
-		background: linear-gradient(90deg, #7c3aed, #a78bfa);
-		border-radius: 1rem 1rem 0 0;
-	}
-	.playlist-promo:hover {
-		border-color: rgba(167, 139, 250, 0.6);
-		box-shadow: 0 12px 40px -12px rgba(124, 58, 237, 0.35);
-		transform: translateY(-2px);
-	}
-	.playlist-promo-badge {
-		display: inline-block;
-		font-size: 0.7rem;
-		font-weight: 700;
-		text-transform: uppercase;
-		letter-spacing: 0.08em;
-		color: #c4b5fd;
-		background: rgba(139, 92, 246, 0.25);
-		padding: 0.25rem 0.6rem;
-		border-radius: 0.375rem;
-		margin-bottom: 0.75rem;
-	}
-	.playlist-promo-heading {
-		display: block;
-		font-size: 1.1rem;
-		font-weight: 600;
-		color: #f1f5f9;
-		margin-bottom: 0.35rem;
-	}
-	.playlist-promo-desc {
-		font-size: 0.9rem;
-		color: #94a3b8;
-		line-height: 1.5;
-		margin: 0 0 0.75rem;
-	}
-	.playlist-promo-cta {
-		font-size: 0.9rem;
-		font-weight: 600;
-		color: #a78bfa;
-		display: inline-flex;
-		align-items: center;
-		gap: 0.25rem;
-	}
-	.playlist-promo:hover .playlist-promo-cta {
-		color: #c4b5fd;
-	}
-
-	@media (max-width: 640px) {
-		.blog-page {
-			padding: 1.5rem 1rem 3rem;
-		}
-
-		.playlist-promo {
-			padding: 1.25rem 1.25rem 1rem;
-			margin-bottom: 1.5rem;
-		}
-		.playlist-promo-heading {
-			font-size: 1rem;
-		}
-		.playlist-promo-desc {
-			font-size: 0.85rem;
-		}
-
-		.blog-card {
-			flex-direction: column;
-			gap: 0.75rem;
-			padding: 1.25rem 1rem;
-		}
-
-		.blog-card-number {
-			text-align: left;
-			min-width: auto;
-		}
-
-		.blog-card-title {
-			font-size: 1.05rem;
-		}
-
-		.blog-card-excerpt {
-			-webkit-line-clamp: 2;
-			line-clamp: 2;
-		}
-	}
-</style>

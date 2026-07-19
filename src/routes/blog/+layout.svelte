@@ -1,10 +1,18 @@
 <svelte:options runes={true} />
 
 <script>
+	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 
 	let { children } = $props();
 	let scrollProgress = $state(0);
+
+	const showScrollProgress = $derived.by(() => {
+		const path = $page.url.pathname;
+		if (path === '/blog' || path === '/blog/playlists') return false;
+		if (path.startsWith('/blog/playlist/')) return false;
+		return path.startsWith('/blog/');
+	});
 
 	function updateProgress() {
 		const { scrollY } = window;
@@ -24,16 +32,18 @@
 </script>
 
 <div class="blog-layout">
-	<div
-		class="scroll-progress"
-		role="progressbar"
-		aria-valuenow={Math.round(scrollProgress)}
-		aria-valuemin="0"
-		aria-valuemax="100"
-		aria-label="Scroll progress"
-	>
-		<div class="scroll-progress-bar" style="width: {scrollProgress}%"></div>
-	</div>
+	{#if showScrollProgress}
+		<div
+			class="scroll-progress"
+			role="progressbar"
+			aria-valuenow={Math.round(scrollProgress)}
+			aria-valuemin="0"
+			aria-valuemax="100"
+			aria-label="Scroll progress"
+		>
+			<div class="scroll-progress-bar" style="width: {scrollProgress}%"></div>
+		</div>
+	{/if}
 	{@render children()}
 </div>
 
