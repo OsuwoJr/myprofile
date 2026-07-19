@@ -6,7 +6,7 @@
 	import { marked } from 'marked';
 	import { browser } from '$app/environment';
 	import BlogTopicSelect from '$lib/components/BlogTopicSelect.svelte';
-	import { ensureTopicSaved, topicTags } from '$lib/blog.js';
+	import { ensureTopicSaved, topicTags, deleteOrphanedTopics } from '$lib/blog.js';
 
 	let { data } = $props();
 	let article = $state(null);
@@ -100,6 +100,7 @@
 				error = err.message;
 				return;
 			}
+			await deleteOrphanedTopics(supabase);
 			goto('/admin/blog');
 		} catch (e) {
 			error = e?.message ?? 'Failed to save topic';
@@ -112,13 +113,19 @@
 		if (!article || !confirm('Delete this article? This cannot be undone.')) return;
 		saving = true;
 		error = '';
-		const { error: err } = await supabase.from('articles').delete().eq('id', article.id);
-		saving = false;
-		if (err) {
-			error = err.message;
-			return;
+		try {
+			const { error: err } = await supabase.from('articles').delete().eq('id', article.id);
+			if (err) {
+				error = err.message;
+				return;
+			}
+			await deleteOrphanedTopics(supabase);
+			goto('/admin/blog');
+		} catch (e) {
+			error = e?.message ?? 'Failed to delete article';
+		} finally {
+			saving = false;
 		}
-		goto('/admin/blog');
 	}
 </script>
 

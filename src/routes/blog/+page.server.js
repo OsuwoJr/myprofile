@@ -4,17 +4,12 @@ import { estimateReadTime, uniqueTopics } from '$lib/blog.js';
 export async function load({ locals }) {
 	const supabase = locals.supabase;
 
-	const [articlesRes, topicsRes, playlistsRes] = await Promise.all([
+	const [articlesRes, playlistsRes] = await Promise.all([
 		supabase
 			.from('articles')
 			.select('id, slug, title, excerpt, topic, body, created_at')
 			.eq('published', true)
 			.order('created_at', { ascending: false }),
-		supabase
-			.from('blog_topics')
-			.select('name')
-			.order('sort_order', { ascending: true })
-			.order('name', { ascending: true }),
 		supabase
 			.from('blog_playlists')
 			.select('id, title, slug, description, sort_order')
@@ -27,8 +22,8 @@ export async function load({ locals }) {
 		readTime: estimateReadTime(body)
 	}));
 
-	const topicsFromTable = (topicsRes.data ?? []).map((row) => row.name);
-	const topics = topicsFromTable.length > 0 ? topicsFromTable : uniqueTopics(articles);
+	// Public filter: only topics with at least one published article
+	const topics = uniqueTopics(articles);
 
 	return {
 		articles,

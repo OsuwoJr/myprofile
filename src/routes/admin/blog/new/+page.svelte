@@ -6,7 +6,7 @@
 	import { marked } from 'marked';
 	import { browser } from '$app/environment';
 	import BlogTopicSelect from '$lib/components/BlogTopicSelect.svelte';
-	import { ensureTopicSaved } from '$lib/blog.js';
+	import { ensureTopicSaved, deleteOrphanedTopics } from '$lib/blog.js';
 
 	let title = $state('');
 	let slug = $state('');
@@ -72,6 +72,7 @@
 				error = err.message;
 				return;
 			}
+			await deleteOrphanedTopics(supabase);
 			goto('/admin/blog');
 		} catch (e) {
 			error = e?.message ?? 'Failed to save topic';

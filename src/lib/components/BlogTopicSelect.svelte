@@ -2,6 +2,7 @@
 
 <script>
 	import { supabase } from '$lib/supabase';
+	import { uniqueTopics } from '$lib/blog.js';
 
 	let { value = $bindable(''), id = 'topic-select' } = $props();
 
@@ -13,12 +14,8 @@
 	$effect(() => {
 		(async () => {
 			loading = true;
-			const { data } = await supabase
-				.from('blog_topics')
-				.select('name')
-				.order('sort_order', { ascending: true })
-				.order('name', { ascending: true });
-			topics = (data ?? []).map((row) => row.name);
+			const { data } = await supabase.from('articles').select('topic');
+			topics = uniqueTopics(data ?? []);
 			loading = false;
 		})();
 	});

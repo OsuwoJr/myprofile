@@ -67,3 +67,29 @@ export async function ensureTopicSaved(supabase, topicName) {
 	}
 	return name;
 }
+
+/** Remove blog_topics rows not referenced by any article (draft or published). */
+export async function deleteOrphanedTopics(supabase) {
+	const [{ data: topicRows }, { data: articles }] = await Promise.all([
+		supabase.from('blog_topics').select('name'),
+		supabase.from('articles').select('topic')
+	]);
+
+	if (!topicRows?.length) return;
+
+	const used = new Set();
+	for (const article of articles ?? []) {
+		for (const tag of topicTags(article.topic)) {
+			used.add(tag.toLowerCase());
+		}
+	}
+
+	const orphanedNames = topicRows
+		.map((row) => row.name)
+		.filter((name) => !used.has(name.toLowerCase()));
+
+	if (orphanedNames.length === 0) return;
+
+	const { error } = await supabase.from('blog_topics').delete().in('name', orphanedNames);
+	if (error) throw error;
+}
