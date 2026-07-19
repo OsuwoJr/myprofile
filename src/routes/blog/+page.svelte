@@ -39,11 +39,6 @@
 </svelte:head>
 
 <div class="blog-page">
-	<header class="blog-header">
-		<h1 class="blog-title">Blog & Articles</h1>
-		<p class="blog-subtitle">Technical insights, guides, and updates on frontend, SEO, and security.</p>
-	</header>
-
 	{#if loading}
 		<div class="blog-list" role="status" aria-label="Loading articles">
 			{#each [1, 2, 3] as i}
@@ -110,38 +105,6 @@
 		max-width: 42rem;
 		margin: 0 auto;
 		padding: 2.5rem 1.5rem 4rem;
-	}
-
-	.blog-header {
-		text-align: center;
-		margin-bottom: 3rem;
-	}
-
-	.blog-title {
-		font-size: clamp(1.75rem, 4vw, 2.25rem);
-		font-weight: 700;
-		color: #f1f5f9;
-		letter-spacing: -0.025em;
-		line-height: 1.2;
-		margin-bottom: 0.5rem;
-	}
-
-	.blog-title::after {
-		content: '';
-		display: block;
-		width: 3rem;
-		height: 3px;
-		margin: 0.75rem auto 0;
-		background: linear-gradient(90deg, #7c3aed, #a78bfa);
-		border-radius: 2px;
-	}
-
-	.blog-subtitle {
-		font-size: 0.95rem;
-		color: #94a3b8;
-		max-width: 28rem;
-		margin: 0 auto;
-		line-height: 1.5;
 	}
 
 	.blog-list {
