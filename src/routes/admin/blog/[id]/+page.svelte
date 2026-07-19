@@ -5,6 +5,8 @@
 	import { goto } from '$app/navigation';
 	import { marked } from 'marked';
 	import { browser } from '$app/environment';
+	import BlogTopicSelect from '$lib/components/BlogTopicSelect.svelte';
+	import { ensureTopicSaved, topicTags } from '$lib/blog.js';
 
 	let { data } = $props();
 	let article = $state(null);
@@ -37,7 +39,7 @@
 				body = article.body ?? '';
 				analogy = article.analogy ?? '';
 				youtubeLink = article.youtube_link ?? '';
-				topic = article.topic ?? '';
+				topic = topicTags(article.topic)[0] ?? '';
 				published = article.published ?? true;
 			}
 			loading = false;
@@ -78,26 +80,32 @@
 			'article-' + Date.now();
 		saving = true;
 		error = '';
-		const { error: err } = await supabase
-			.from('articles')
-			.update({
-				title: title.trim(),
-				slug: finalSlug,
-				excerpt: excerpt.trim() || null,
-				body: body.trim(),
-				analogy: analogy.trim() || null,
-				youtube_link: youtubeLink.trim() || null,
-				topic: topic.trim() || null,
-				published,
-				updated_at: new Date().toISOString()
-			})
-			.eq('id', article.id);
-		saving = false;
-		if (err) {
-			error = err.message;
-			return;
+		try {
+			const savedTopic = await ensureTopicSaved(supabase, topic);
+			const { error: err } = await supabase
+				.from('articles')
+				.update({
+					title: title.trim(),
+					slug: finalSlug,
+					excerpt: excerpt.trim() || null,
+					body: body.trim(),
+					analogy: analogy.trim() || null,
+					youtube_link: youtubeLink.trim() || null,
+					topic: savedTopic,
+					published,
+					updated_at: new Date().toISOString()
+				})
+				.eq('id', article.id);
+			if (err) {
+				error = err.message;
+				return;
+			}
+			goto('/admin/blog');
+		} catch (e) {
+			error = e?.message ?? 'Failed to save topic';
+		} finally {
+			saving = false;
 		}
-		goto('/admin/blog');
 	}
 
 	async function remove() {
@@ -150,12 +158,7 @@
 		</div>
 		<div>
 			<label for="edit-topic" class="block text-slate-300 mb-1">Topic</label>
-			<input
-				id="edit-topic"
-				bind:value={topic}
-				class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-600 text-slate-100"
-				placeholder="e.g. SEO, Frontend, Product Design"
-			/>
+			<BlogTopicSelect id="edit-topic" bind:value={topic} />
 		</div>
 		<div>
 			<label for="edit-excerpt" class="block text-slate-300 mb-1">Excerpt</label>

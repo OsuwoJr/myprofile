@@ -47,3 +47,23 @@ export function articleMatchesSearch(article, query) {
 		.toLowerCase();
 	return haystack.includes(q);
 }
+
+/** Insert topic into blog_topics if it does not exist yet (admin save). */
+export async function ensureTopicSaved(supabase, topicName) {
+	const name = topicName?.trim();
+	if (!name) return null;
+
+	const { data: existing } = await supabase
+		.from('blog_topics')
+		.select('name')
+		.eq('name', name)
+		.maybeSingle();
+
+	if (existing) return name;
+
+	const { error } = await supabase.from('blog_topics').insert({ name });
+	if (error && !/duplicate|unique/i.test(error.message)) {
+		throw error;
+	}
+	return name;
+}

@@ -5,6 +5,8 @@
 	import { goto } from '$app/navigation';
 	import { marked } from 'marked';
 	import { browser } from '$app/environment';
+	import BlogTopicSelect from '$lib/components/BlogTopicSelect.svelte';
+	import { ensureTopicSaved } from '$lib/blog.js';
 
 	let title = $state('');
 	let slug = $state('');
@@ -54,22 +56,28 @@
 			'article-' + Date.now();
 		loading = true;
 		error = '';
-		const { error: err } = await supabase.from('articles').insert({
-			title: title.trim(),
-			slug: finalSlug,
-			excerpt: excerpt.trim() || null,
-			body: body.trim(),
-			analogy: analogy.trim() || null,
-			youtube_link: youtubeLink.trim() || null,
-			topic: topic.trim() || null,
-			published
-		});
-		loading = false;
-		if (err) {
-			error = err.message;
-			return;
+		try {
+			const savedTopic = await ensureTopicSaved(supabase, topic);
+			const { error: err } = await supabase.from('articles').insert({
+				title: title.trim(),
+				slug: finalSlug,
+				excerpt: excerpt.trim() || null,
+				body: body.trim(),
+				analogy: analogy.trim() || null,
+				youtube_link: youtubeLink.trim() || null,
+				topic: savedTopic,
+				published
+			});
+			if (err) {
+				error = err.message;
+				return;
+			}
+			goto('/admin/blog');
+		} catch (e) {
+			error = e?.message ?? 'Failed to save topic';
+		} finally {
+			loading = false;
 		}
-		goto('/admin/blog');
 	}
 </script>
 
@@ -105,12 +113,7 @@
 	</div>
 	<div>
 		<label for="new-topic" class="block text-slate-300 mb-1">Topic</label>
-		<input
-			id="new-topic"
-			bind:value={topic}
-			class="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-600 text-slate-100"
-			placeholder="e.g. SEO, Frontend, Product Design"
-		/>
+		<BlogTopicSelect id="new-topic" bind:value={topic} />
 	</div>
 	<div>
 		<label for="new-excerpt" class="block text-slate-300 mb-1">Excerpt</label>
