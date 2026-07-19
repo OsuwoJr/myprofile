@@ -21,15 +21,14 @@
     {#if $page.url.pathname !== '/contact'}
       <FloatingContactButton />
     {/if}
-    <div  class={"fixed bottom-0 w-full duration-200 flex p-10 z-[10] " +
-    (y > 0
-        ? " opacity-full pointer-events-auto"
-        : " pointer-events-none opacity-0")} 
-     >
+    <div
+      class={"fixed bottom-0 right-0 p-6 sm:p-10 z-[10] duration-200 pointer-events-none " +
+      (y > 0 ? "opacity-100" : "opacity-0")}
+    >
      <button
          onclick={goTop}
          aria-label="Scroll to top"
-         class="ml-auto rounded-full aspect-square bg-slate-900 text-violet-400 px-3 sm:px-4 hover:bg-slate-800 cursor-pointer"
+         class="pointer-events-auto ml-auto rounded-full aspect-square bg-slate-900 text-violet-400 px-3 sm:px-4 hover:bg-slate-800 cursor-pointer"
          >
         <i class="fa-solid fa-arrow-up grid place-items-center aspect-square"></i>
      </button>

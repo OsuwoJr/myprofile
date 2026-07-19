@@ -10,7 +10,7 @@
 </script>
 
 <footer
-	class="py-12 sm:py-16 bg-black border-t border-solid border-violet-950 flex flex-col gap-6 justify-center items-center"
+	class="relative z-[2] py-12 sm:py-16 bg-black border-t border-solid border-violet-950 flex flex-col gap-6 justify-center items-center"
 >
 	<div class="w-full max-w-[1400px] mx-auto px-4 grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr] gap-6 items-center justify-items-center">
 		<!-- Left: LinkedIn & Instagram -->

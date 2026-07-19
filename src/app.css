@@ -158,3 +158,9 @@ button:focus {
         content: none;
     }
 }
+
+/* Background particles must not block link clicks */
+#particles-js,
+#particles-js canvas {
+    pointer-events: none !important;
+}
