@@ -18,7 +18,7 @@
 </script>
 
   <div class="relative flex flex-col max-w-[1400px] mx-auto w-full text-sm sm:text-base min-h-screen">
-    {#if $page.url.pathname !== '/contact' && !$page.url.pathname.startsWith('/blog')}
+    {#if $page.url.pathname !== '/contact'}
       <FloatingContactButton />
     {/if}
     <div  class={"fixed bottom-0 w-full duration-200 flex p-10 z-[10] " +

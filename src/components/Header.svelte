@@ -65,6 +65,7 @@
 		{ name: 'Portfolio', link: '/portfolio' },
 		{ name: 'Resumes', link: '/resumes' },
 		{ name: 'Blog', link: '/blog' },
+		{ name: 'Contact', link: '/contact' },
 		{ name: 'Request quote', link: '/request-quote' }
 	];
 </script>
